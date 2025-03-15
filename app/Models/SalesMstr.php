@@ -26,4 +26,9 @@ class SalesMstr extends Model
     {
         return $this->hasMany(SalesDet::class, 'sales_det_mstr', 'sales_mstr_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'sales_mstr_cb', 'id');
+    }
 }

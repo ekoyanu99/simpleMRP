@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\ItemMstr;
 use App\Http\Requests\StoreItemMstrRequest;
 use App\Http\Requests\UpdateItemMstrRequest;
+use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\DataTables;
 
 class ItemMstrController extends Controller
 {
@@ -13,7 +16,29 @@ class ItemMstrController extends Controller
      */
     public function index()
     {
-        //
+        return view('itemmstr.index');
+    }
+
+    public function data(Request $request)
+    {
+
+        if (!$request->ajax()) {
+            abort(403, 'Unauthorized action');
+        }
+
+        $q = ItemMstr::query()->with('user');
+
+        $items = $q->get();
+
+        // add column time to diffForHumans
+        return DataTables::of($items)
+            ->addIndexColumn()
+            ->addColumn('action', 'itemmstr.datatable')
+            ->addColumn('updated_at', function ($item) {
+                return $item->updated_at->diffForHumans();
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 
     /**
@@ -30,6 +55,30 @@ class ItemMstrController extends Controller
     public function store(StoreItemMstrRequest $request)
     {
         //
+        $id = Auth::user()->id;
+
+        // validation
+        $request->validate([
+            'item_name' => 'required|unique:item_mstr,item_name',
+            'item_desc' => 'required',
+            'item_pmcode' => 'required',
+            'item_prod_line' => 'required',
+            'item_rjrate' => 'required',
+            'item_uom' => 'required',
+        ]);
+
+        ItemMstr::create([
+            'item_name' => $request->item_name,
+            'item_desc' => $request->item_desc,
+            'item_pmcode' => $request->item_pmcode,
+            'item_prod_line' => $request->item_prod_line,
+            'item_rjrate' => $request->item_rjrate,
+            'item_status' => 1,
+            'item_uom' => $request->item_uom,
+            'item_mstr_cb' => $id,
+        ]);
+
+        return redirect('ItemMstrs')->with('status', 'Item created successfully');
     }
 
     /**
@@ -51,16 +100,37 @@ class ItemMstrController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateItemMstrRequest $request, ItemMstr $itemMstr)
+    public function update(UpdateItemMstrRequest $request, $id)
     {
         //
+
+        $itemMstr = ItemMstr::findOrFail($id);
+        $id = Auth::user()->id;
+        // validation
+        $request->validate([
+            // 'efid_Name' => 'required|unique:item_mstr,item_name,' . $itemMstr->id,
+            'efid_Desc' => 'required',
+        ]);
+
+        $data = [
+            'item_desc' => $request->efid_Desc,
+            'item_mstr_cb' => $id,
+        ];
+
+        $itemMstr->update($data);
+
+        return redirect('ItemMstrs')->with('status', 'Item updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ItemMstr $itemMstr)
+    public function destroy($itemMstrId)
     {
         //
+        $itemMstr = ItemMstr::findOrFail($itemMstrId);
+        $itemMstr->delete();
+
+        return redirect('ItemMstrs')->with('status', 'Item deleted successfully');
     }
 }

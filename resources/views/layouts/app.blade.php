@@ -6,6 +6,8 @@
     <h1>{{ $title ?? 'simpleMRP' }}</h1>
 @stop
 
+@section('plugins.Datatables', true)
+
 @section('content')
     @yield('content')
 @stop

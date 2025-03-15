@@ -21,6 +21,7 @@ class ItemMstr extends Model
         'item_rjrate',
         'item_status',
         'item_mstr_cb',
+        'item_uom',
     ];
 
     protected $hidden = [
@@ -33,4 +34,9 @@ class ItemMstr extends Model
         'item_prod_line' => 'SUP',
         'item_rjrate' => '0',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'item_mstr_cb', 'id');
+    }
 }

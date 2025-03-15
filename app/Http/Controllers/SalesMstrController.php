@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\SalesMstr;
 use App\Http\Requests\StoreSalesMstrRequest;
 use App\Http\Requests\UpdateSalesMstrRequest;
+use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\DataTables;
 
 class SalesMstrController extends Controller
 {
@@ -14,6 +17,32 @@ class SalesMstrController extends Controller
     public function index()
     {
         //
+        return view('sales.index');
+    }
+
+    public function data(Request $request)
+    {
+
+        if (!$request->ajax()) {
+            abort(403, 'Unauthorized action');
+        }
+
+        $q = SalesMstr::query()->with('user');
+
+        $sales = $q->get();
+
+        // add column time to diffForHumans
+        return DataTables::of($sales)
+            ->addIndexColumn()
+            ->addColumn('action', 'sales.datatable')
+            ->addColumn('updated_at', function ($sales) {
+                return $sales->updated_at->diffForHumans();
+            })
+            ->addColumn('sales_mstr_total', function ($sales) {
+                return number_format($sales->sales_mstr_total, 2);
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 
     /**
@@ -30,6 +59,24 @@ class SalesMstrController extends Controller
     public function store(StoreSalesMstrRequest $request)
     {
         //
+        try {
+            $id = Auth::user()->id;
+
+            $salesMstr = SalesMstr::create([
+                'sales_mstr_nbr' => $request->sales_mstr_nbr,
+                'sales_mstr_bill' => $request->sales_mstr_bill,
+                'sales_mstr_ship' => $request->sales_mstr_ship,
+                'sales_mstr_date' => $request->sales_mstr_date,
+                'sales_mstr_due_date' => $request->sales_mstr_due_date,
+                'sales_mstr_status' => 1,
+                'sales_mstr_total' => 0,
+                'sales_mstr_cb' => $id
+            ]);
+
+            return redirect('SalesMstrs')->with('status', 'success');
+        } catch (\Throwable $th) {
+            return redirect('SalesMstrs')->with('status', 'error');
+        }
     }
 
     /**
@@ -51,9 +98,19 @@ class SalesMstrController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSalesMstrRequest $request, SalesMstr $salesMstr)
+    public function update(UpdateSalesMstrRequest $request, $id)
     {
         //
+        $salesMstr = SalesMstr::findOrFail($id);
+        $id = Auth::user()->id;
+
+        $data = [
+            'sales_mstr_due_date' => $request->efid_Due,
+        ];
+
+        $salesMstr->update($data);
+
+        return redirect('SalesMstrs')->with('status', 'success');
     }
 
     /**
