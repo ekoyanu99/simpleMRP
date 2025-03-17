@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\SalesMstr;
 use App\Http\Requests\StoreSalesMstrRequest;
 use App\Http\Requests\UpdateSalesMstrRequest;
+use App\Models\ItemMstr;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
@@ -82,9 +83,12 @@ class SalesMstrController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(SalesMstr $salesMstr)
+    public function show($salesMstrId)
     {
         //
+        $salesMstr = SalesMstr::with(['salesDet', 'salesDet.itemMstr'])->findOrFail($salesMstrId);
+        $items = ItemMstr::all();
+        return view('sales.edit', compact(['salesMstr', 'items']));
     }
 
     /**
@@ -106,18 +110,27 @@ class SalesMstrController extends Controller
 
         $data = [
             'sales_mstr_due_date' => $request->efid_Due,
+            'sales_mstr_bill' => $request->efid_bill ?? $salesMstr->sales_mstr_bill,
+            'sales_mstr_ship' => $request->efid_ship ?? $salesMstr->sales_mstr_ship,
+            'sales_mstr_cb' => $id
         ];
 
         $salesMstr->update($data);
 
-        return redirect('SalesMstrs')->with('status', 'success');
+        return redirect()->back()->with('status', 'success');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SalesMstr $salesMstr)
+    public function destroy($salesMstrId)
     {
         //
+        $salesMstr = SalesMstr::findOrFail($salesMstrId);
+        if ($salesMstr->delete()) {
+            return redirect()->back()->with('status', 'success');
+        } else {
+            return redirect()->back()->with('status', 'error');
+        }
     }
 }

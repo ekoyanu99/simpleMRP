@@ -133,4 +133,10 @@ class ItemMstrController extends Controller
 
         return redirect('ItemMstrs')->with('status', 'Item deleted successfully');
     }
+
+    public function getDesc($itemId)
+    {
+        $item = ItemMstr::findOrFail($itemId);
+        return response()->json($item);
+    }
 }

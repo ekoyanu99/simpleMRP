@@ -1,5 +1,3 @@
-
-
 $(document).on("click", ".editButton", function () {
     // console.log("Button clicked");
 

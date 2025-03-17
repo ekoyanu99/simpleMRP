@@ -22,4 +22,14 @@ class SalesDet extends Model
         'sales_det_total',
         'sales_det_cb'
     ];
+
+    public function salesMstr()
+    {
+        return $this->belongsTo(SalesMstr::class, 'sales_det_mstr', 'sales_mstr_id');
+    }
+
+    public function itemMstr()
+    {
+        return $this->belongsTo(ItemMstr::class, 'sales_det_item', 'item_mstr_id');
+    }
 }

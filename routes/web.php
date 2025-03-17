@@ -57,6 +57,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('PoDets', PoDetController::class);
     Route::get('/PoDet/json', [PoDetController::class, 'data'])->name('PoDet.data');
     Route::get('PoDet/{poDetId}/delete', [PoDetController::class, 'destroy']);
+
+    Route::get('GetDesc/{itemId}', [ItemMstrController::class, 'getDesc']);
 });
 
 require __DIR__ . '/auth.php';
