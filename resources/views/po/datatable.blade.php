@@ -9,5 +9,9 @@
 
         <a href="{{ url('PoMstr/' . $po_mstr_id . '/delete') }}" class="btn btn-sm btn-danger rounded"><i
                 class="fas fa-trash" aria-hidden="true"></i></a>
+
+        <a href="{{ url('PoMstrs/' . $po_mstr_id . '') }}" class="btn btn-sm btn-primary rounded">
+            <i class="fas fa-folder" aria-hidden="true"></i>
+        </a>
     </div>
 </div>

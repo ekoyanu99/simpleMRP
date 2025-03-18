@@ -94,9 +94,12 @@ class SalesMstrController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(SalesMstr $salesMstr)
+    public function edit($salesMstrId)
     {
         //
+        $salesMstr = SalesMstr::with(['salesDet', 'salesDet.itemMstr'])->findOrFail($salesMstrId);
+        $items = ItemMstr::all();
+        return view('sales.edit', compact(['salesMstr', 'items']));
     }
 
     /**
