@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('mrp_det_date');
             $table->decimal('mrp_det_qtyreq', 10, 2);
             $table->decimal('mrp_det_stock', 10, 2);
+            $table->decimal('mrp_det_outstanding', 10, 2);
             $table->decimal('mrp_det_mr', 10, 2);
             $table->foreign('mrp_det_mstr')->references('mrp_mstr_id')->on('mrp_mstr')->onDelete('cascade');
             $table->timestamps();

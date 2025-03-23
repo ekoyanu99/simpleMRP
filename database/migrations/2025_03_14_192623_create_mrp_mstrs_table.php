@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('mrp_mstr_id');
             $table->string('mrp_mstr_item');
             $table->decimal('mrp_mstr_saldo', 10, 2);
+            $table->decimal('mrp_mstr_outstanding', 10, 2);
             $table->decimal('mrp_mstr_summary', 10, 2);
             $table->boolean('mrp_mstr_proceded')->default(false);
             $table->bigInteger('mrp_mstr_cb');

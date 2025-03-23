@@ -304,6 +304,28 @@
                 });
         }
     </script>
+    {{-- <script>
+        getDesc = () => {
+            let item_id = document.getElementById('pod_det_item').value;
+            console.log(item_id);
+            let url = "{{ url('GetDesc') }}/" + encodeURIComponent(item_id);
+            console.log(url);
+
+            // Get CSRF token from meta tag
+            let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            fetch(url, {
+                    headers: {
+                        'X-CSRF-TOKEN': token
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('pod_det_desc').value = data.item_desc;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script> --}}
     <script src="{{ asset('js/poDet/poDet.js') }}"></script>
     <script src="{{ asset('js/poDet/updateModal.js') }}"></script>
 @endpush

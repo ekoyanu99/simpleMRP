@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('po_mstr_arrival_date');
             $table->string('po_mstr_status');
             $table->string('po_mstr_remarks');
+            $table->decimal('po_mstr_total', 10, 2);
             $table->unsignedBigInteger('po_mstr_cb');
             $table->timestamps();
         });

@@ -88,14 +88,15 @@
                                 <label for="bom_mstr_qtyper" class="form-label">
                                     Qty Per
                                 </label>
-                                <input type="number" name="bom_mstr_qtyper" id="bom_mstr_qtyper"
+                                <input type="text" name="bom_mstr_qtyper" id="bom_mstr_qtyper"
                                     class="form-control form-control-sm" placeholder="" required=""
-                                    value="{{ old('bom_mstr_qtyper') }}">
+                                    value="{{ old('bom_mstr_qtyper') }}" pattern="^\d+(\.\d{1,3})?$"
+                                    title="Please enter a valid quantity">
                             </div>
 
                             <div class="form-group col-md-4">
                                 <label for="bom_mstr_start" class="form-label">
-                                    Qty Per
+                                    Start
                                 </label>
                                 <input type="date" name="bom_mstr_start" id="bom_mstr_start"
                                     class="form-control form-control-sm" value="{{ old('bom_mstr_start') }}">
@@ -103,7 +104,7 @@
 
                             <div class="form-group col-md-4">
                                 <label for="bom_mstr_expire" class="form-label">
-                                    Qty Per
+                                    Expire
                                 </label>
                                 <input type="date" name="bom_mstr_expire" id="bom_mstr_expire"
                                     class="form-control form-control-sm" value="{{ old('bom_mstr_expire') }}">
