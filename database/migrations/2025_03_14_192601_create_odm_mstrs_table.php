@@ -13,19 +13,19 @@ return new class extends Migration
     {
         Schema::create('odm_mstr', function (Blueprint $table) {
             $table->id('odm_mstr_id');
-            $table->bigInteger('odm_mstr_sodid');
-            $table->string('odm_mstr_nbr');
-            $table->bigInteger('odm_mstr_fg');
-            $table->string('odm_mstr_fguom');
-            $table->string('odm_mstr_qtyorder');
-            $table->string('odm_mstr_level');
-            $table->bigInteger('odm_mstr_parent');
-            $table->string('odm_mstr_parentuom');
-            $table->bigInteger('odm_mstr_child');
-            $table->string('odm_mstr_childuom');
-            $table->string('odm_mstr_rjrate');
-            $table->string('odm_mstr_req');
-            $table->integer('odm_mstr_cb');
+            $table->bigInteger('odm_mstr_sodid')->nullable();
+            $table->string('odm_mstr_nbr')->nullable();
+            $table->bigInteger('odm_mstr_fg')->nullable();
+            $table->string('odm_mstr_fguom')->nullable();
+            $table->string('odm_mstr_qtyorder')->nullable();
+            $table->string('odm_mstr_level')->nullable();
+            $table->bigInteger('odm_mstr_parent')->nullable();
+            $table->string('odm_mstr_parentuom')->nullable();
+            $table->bigInteger('odm_mstr_child')->nullable();
+            $table->string('odm_mstr_childuom')->nullable();
+            $table->string('odm_mstr_rjrate')->nullable();
+            $table->string('odm_mstr_req')->nullable();
+            $table->integer('odm_mstr_cb')->nullable();
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\SalesDet;
 use App\Http\Requests\StoreSalesDetRequest;
 use App\Http\Requests\UpdateSalesDetRequest;
+use App\Models\ItemMstr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -96,6 +97,8 @@ class SalesDetController extends Controller
         ];
 
         if ($salesDet->update($data)) {
+            $this->rowInserted($salesDet->sales_det_mstr, $salesDet->sales_det_id);
+
             return redirect()->back()->with('status', 'success');
         } else {
             return redirect()->back()->with('status', 'error');
@@ -122,6 +125,8 @@ class SalesDetController extends Controller
         $sql = "SELECT sales_mstr_nbr as nbr FROM sales_mstr WHERE sales_mstr_id = ?";
         $row = DB::selectOne($sql, [$idSo]);
 
+        $createBy = Auth::user()->id;
+
         if (!$row) {
             return false;
         }
@@ -138,6 +143,172 @@ class SalesDetController extends Controller
         $ttlSales = $row2->ttlSales ?? 0;
 
         $updated = DB::update("UPDATE sales_mstr SET sales_mstr_total = ? WHERE sales_mstr_id = ?", [$ttlSales, $idSo]);
+
+        // data detail
+        $sod = SalesDet::findOrFail($idSod);
+        $idSod = $sod->sales_det_id;
+        $fgId = $sod->sales_det_item;
+        $parent = $sod->sales_det_item;
+        $qtyReq = $sod->sales_det_qty;
+
+        $nbr = $nbr;
+
+        // cek if item still on item mstr
+        $data = ItemMstr::findOrFail($parent);
+        if (!empty($data)) {
+            $rowdata = $data;
+            $fg_um = $data->item_uom;
+        }
+
+        dump($rowdata);
+
+        // cek if existing on odm then delete
+
+        $cek = DB::select("SELECT * FROM odm_mstr WHERE odm_mstr_nbr = ? AND odm_mstr_sodid = ?", [$nbr, $idSod]);
+        if ($cek) {
+            $delOdm = DB::delete("DELETE FROM odm_mstr WHERE odm_mstr_nbr = ? AND odm_mstr_sodid = ?", [$nbr, $idSod]);
+        }
+
+        $data1 = DB::select("SELECT bom_mstr.* , 
+                                item_mstr.item_name as name, 
+                                item_mstr.item_desc as desc1,
+                                item_mstr.item_rjrate as yield,
+                                item_mstr.item_uom as uom 
+                                FROM bom_mstr left JOIN item_mstr 
+                                ON bom_mstr.bom_mstr_child = item_mstr.item_mstr_id 
+                                WHERE bom_mstr.bom_mstr_parent = ? 
+                                AND item_status = 1", [$parent]);
+
+
+        // dd($data1);
+        if (!empty($data)) {
+
+            // looping bom dan insert berdasarkan level
+
+            for ($i = 0; $i < count($data1); $i++) {
+
+                $parent = $data1[$i]->bom_mstr_parent;
+                $child = $data1[$i]->bom_mstr_child;
+                $yield = $data1[$i]->yield;
+                $uom = $data1[$i]->uom;
+                $qty = $qtyReq * $yield;
+                $lvl = "LVL1";
+
+                $insOdm = DB::insert("INSERT INTO odm_mstr (odm_mstr_nbr, odm_mstr_sodid, odm_mstr_parent, odm_mstr_child, odm_mstr_rjrate, odm_mstr_childuom, odm_mstr_req, odm_mstr_level, odm_mstr_fg, odm_mstr_fguom, odm_mstr_qtyorder, odm_mstr_cb, created_at, updated_at) 
+                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, getdate(), getdate())", [$nbr, $idSod, $parent, $child, $yield, $uom, $qty, $lvl, $fgId, $fg_um, $qtyReq, $createBy]);
+
+                // level2
+                $data2 = DB::select("SELECT bom_mstr.* , 
+                                        item_mstr.item_name as name, 
+                                        item_mstr.item_desc as desc1,
+                                        item_mstr.item_rjrate as yield,
+                                        item_mstr.item_uom as uom 
+                                        FROM bom_mstr left JOIN item_mstr 
+                                        ON bom_mstr.bom_mstr_child = item_mstr.item_mstr_id 
+                                        WHERE bom_mstr.bom_mstr_parent = ? 
+                                        AND item_status = 1", [$child]);
+
+                if (!empty($data2)) {
+                    for ($j = 0; $j < count($data2); $j++) {
+                        $parent = $data2[$j]->bom_mstr_parent;
+                        $child = $data2[$j]->bom_mstr_child;
+                        $yield = $data2[$j]->yield;
+                        $uom = $data2[$j]->uom;
+                        $qty = $qtyReq * $yield;
+                        $lvl = "LVL2";
+
+                        $insOdm = DB::insert("INSERT INTO odm_mstr (odm_mstr_nbr, odm_mstr_sodid, odm_mstr_parent, odm_mstr_child, odm_mstr_rjrate, odm_mstr_childuom, odm_mstr_req, odm_mstr_level, odm_mstr_fg, odm_mstr_fguom, odm_mstr_qtyorder, odm_mstr_cb, created_at, updated_at) 
+                                                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, getdate(), getdate())", [$nbr, $idSod, $parent, $child, $yield, $uom, $qty, $lvl, $fgId, $fg_um, $qtyReq, $createBy]);
+
+                        // level3
+                        $data3 = DB::select("SELECT bom_mstr.* , 
+                                                item_mstr.item_name as name, 
+                                                item_mstr.item_desc as desc1,
+                                                item_mstr.item_rjrate as yield,
+                                                item_mstr.item_uom as uom 
+                                                FROM bom_mstr left JOIN item_mstr 
+                                                ON bom_mstr.bom_mstr_child = item_mstr.item_mstr_id 
+                                                WHERE bom_mstr.bom_mstr_parent = ? 
+                                                AND item_status = 1", [$child]);
+
+                        if (!empty($data3)) {
+                            for ($k = 0; $k < count($data3); $k++) {
+                                $parent = $data3[$k]->bom_mstr_parent;
+                                $child = $data3[$k]->bom_mstr_child;
+                                $yield = $data3[$k]->yield;
+                                $uom = $data3[$k]->uom;
+                                $qty = $qtyReq * $yield;
+                                $lvl = "LVL3";
+
+                                $insOdm = DB::insert("INSERT INTO odm_mstr (odm_mstr_nbr, odm_mstr_sodid, odm_mstr_parent, odm_mstr_child, odm_mstr_rjrate, odm_mstr_childuom, odm_mstr_req, odm_mstr_level, odm_mstr_fg, odm_mstr_fguom, odm_mstr_qtyorder, odm_mstr_cb, created_at, updated_at) 
+                                                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, getdate(), getdate())", [$nbr, $idSod, $parent, $child, $yield, $uom, $qty, $lvl, $fgId, $fg_um, $qtyReq, $createBy]);
+
+                                // level4
+                                $data4 = DB::select("SELECT bom_mstr.* , 
+                                                        item_mstr.item_name as name, 
+                                                        item_mstr.item_desc as desc1,
+                                                        item_mstr.item_rjrate as yield,
+                                                        item_mstr.item_uom as uom 
+                                                        FROM bom_mstr left JOIN item_mstr 
+                                                        ON bom_mstr.bom_mstr_child = item_mstr.item_mstr_id 
+                                                        WHERE bom_mstr.bom_mstr_parent = ? 
+                                                        AND item_status = 1", [$child]);
+
+                                if (!empty($data4)) {
+                                    for ($l = 0; $l < count($data4); $l++) {
+                                        $parent = $data4[$l]->bom_mstr_parent;
+                                        $child = $data4[$l]->bom_mstr_child;
+                                        $yield = $data4[$l]->yield;
+                                        $uom = $data4[$l]->uom;
+                                        $qty = $qtyReq * $yield;
+                                        $lvl = "LVL4";
+
+                                        $insOdm = DB::insert("INSERT INTO odm_mstr (odm_mstr_nbr, odm_mstr_sodid, odm_mstr_parent, odm_mstr_child, odm_mstr_rjrate, odm_mstr_childuom, odm_mstr_req, odm_mstr_level, odm_mstr_fg, odm_mstr_fguom, odm_mstr_qtyorder, odm_mstr_cb, created_at, updated_at) 
+                                                                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, getdate(), getdate())", [$nbr, $idSod, $parent, $child, $yield, $uom, $qty, $lvl, $fgId, $fg_um, $qtyReq, $createBy]);
+
+                                        // level5
+                                        $data5 = DB::select("SELECT bom_mstr.* , 
+                                                                item_mstr.item_name as name, 
+                                                                item_mstr.item_desc as desc1,
+                                                                item_mstr.item_rjrate as yield,
+                                                                item_mstr.item_uom as uom 
+                                                                FROM bom_mstr left JOIN item_mstr 
+                                                                ON bom_mstr.bom_mstr_child = item_mstr.item_mstr_id 
+                                                                WHERE bom_mstr.bom_mstr_parent = ? 
+                                                                AND item_status = 1", [$child]);
+
+                                        if (!empty($data5)) {
+                                            for ($m = 0; $m < count($data5); $m++) {
+                                                $parent = $data5[$m]->bom_mstr_parent;
+                                                $child = $data5[$m]->bom_mstr_child;
+                                                $yield = $data5[$m]->yield;
+                                                $uom = $data5[$m]->uom;
+                                                $qty = $qtyReq * $yield;
+                                                $lvl = "LVL5";
+
+                                                $insOdm = DB::insert("INSERT INTO odm_mstr (odm_mstr_nbr, odm_mstr_sodid, odm_mstr_parent, odm_mstr_child, odm_mstr_rjrate, odm_mstr_childuom, odm_mstr_req, odm_mstr_level, odm_mstr_fg, odm_mstr_fguom, odm_mstr_qtyorder, odm_mstr_cb, created_at, updated_at) 
+                                                                                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, getdate(), getdate())", [$nbr, $idSod, $parent, $child, $yield, $uom, $qty, $lvl, $fgId, $fg_um, $qtyReq, $createBy]);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+
+            $parent = $fgId;
+            $child = $fgId;
+            $yield = 0;
+            $uom = $fg_um;
+            $qty = $qtyReq;
+            $lvl = "LVL1";
+
+            $insOdm = DB::insert("INSERT INTO odm_mstr (odm_mstr_nbr, odm_mstr_sodid, odm_mstr_parent, odm_mstr_child, odm_mstr_rjrate, odm_mstr_childuom, odm_mstr_req, odm_mstr_level, odm_mstr_fg, odm_mstr_fguom, odm_mstr_qtyorder, odm_mstr_cb, created_at, updated_at) 
+                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, getdate(), getdate())", [$nbr, $idSod, $parent, $child, $yield, $uom, $qty, $lvl, $fgId, $fg_um, $qtyReq, $createBy]);
+        }
 
         return $updated > 0;
     }
