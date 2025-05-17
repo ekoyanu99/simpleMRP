@@ -335,6 +335,10 @@ return [
             'text' => 'Material Requisition',
             'url' => 'MrpMstrs',
         ],
+        [
+            'text' => 'Inventory Detail',
+            'url' => 'InDets',
+        ],
     ],
 
     /*

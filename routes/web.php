@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BomMstrController;
+use App\Http\Controllers\InDetController;
 use App\Http\Controllers\ItemMstrController;
 use App\Http\Controllers\MrpDetController;
 use App\Http\Controllers\MrpMstrController;
@@ -65,6 +66,12 @@ Route::middleware('auth')->group(function () {
     Route::get('PoDet/{poDetId}/delete', [PoDetController::class, 'destroy']);
 
     Route::get('GetDesc/{itemId}', [ItemMstrController::class, 'getDesc']);
+
+
+    // InDet
+    Route::resource('InDets', InDetController::class);
+    Route::get('/InDet/json', [InDetController::class, 'data'])->name('InDet.data');
+    Route::get('InDet/{inDetId}/delete', [InDetController::class, 'destroy']);
 });
 
 require __DIR__ . '/auth.php';

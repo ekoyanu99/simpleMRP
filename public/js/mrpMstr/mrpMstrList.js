@@ -33,6 +33,7 @@ $(document).ready(function () {
             { data: "mrp_mstr_saldo" },
             { data: "mrp_mstr_outstanding" },
             { data: "mrp_mstr_summary" },
+            {data: "mrp_mstr_uom"},
         ],
         dom: "lrtip",
         rowId: 'mrp_mstr_id',

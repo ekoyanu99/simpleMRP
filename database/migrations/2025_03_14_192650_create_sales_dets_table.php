@@ -18,9 +18,9 @@ return new class extends Migration
             $table->date('sales_det_duedate')->nullable();
             $table->string('sales_det_item');
             $table->string('sales_det_desc')->nullable();
-            $table->integer('sales_det_qty')->nullable();
-            $table->decimal('sales_det_price', 10, 2)->nullable();
-            $table->decimal('sales_det_total', 10, 2)->nullable();
+            $table->decimal('sales_det_qty', 18, 2)->nullable();
+            $table->decimal('sales_det_price', 18, 2)->nullable();
+            $table->decimal('sales_det_total', 20, 2)->nullable();
             $table->foreign('sales_det_mstr')->references('sales_mstr_id')->on('sales_mstr')->onDelete('cascade');
             $table->bigInteger('sales_det_cb')->nullable();
             $table->timestamps();

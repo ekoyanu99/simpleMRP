@@ -11,7 +11,7 @@
     <tbody>
         @foreach ($details as $det)
             <tr>
-                <td>{{ $det->mrp_det_date }}</td>
+                <td>{{ $det->mrp_det_date ? formatDateIndo($det->mrp_det_date) : $det->mrp_det_date }}</td>
                 <td>{{ $det->mrp_det_sales }}</td>
                 <td class="text-end">
                     {{ $det->mrp_det_qtyreq ? formatNumberV2($det->mrp_det_qtyreq) : $det->mrp_det_qtyreq }}

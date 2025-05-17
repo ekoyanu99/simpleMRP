@@ -30,10 +30,7 @@ class PoMstrController extends Controller
 
         $q = PoMstr::query();
 
-        $po_mstr = $q->get();
-
-        // add column time to diffForHumans
-        return DataTables::of($po_mstr)
+        return DataTables::of($q)
             ->addIndexColumn()
             ->addColumn('action', 'po.datatable')
             ->addColumn('updated_at', function ($po_mstr) {

@@ -48,6 +48,9 @@ class MrpMstrController extends Controller
             ->editColumn('mrp_mstr_summary', function ($mrp_mstr) {
                 return $mrp_mstr->mrp_mstr_summary ? formatNumberV2($mrp_mstr->mrp_mstr_summary) : 0;
             })
+            ->addColumn('mrp_mstr_uom', function ($mrp_mstr) {
+                return $mrp_mstr->itemMstr->item_uom;
+            })
             ->addIndexColumn()
             ->addColumn('action', fn($row) => '<button class="btn btn-sm btn-primary">Aksi</button>')
             ->make(true);
@@ -135,9 +138,15 @@ class MrpMstrController extends Controller
                 ->where('pod_det_item', $item->item_mstr_id)
                 ->sum('pod_det_qty');
 
+            // get saldo from in_det
+            $saldo = DB::table('in_det')
+                ->where('in_det_item', $item->item_mstr_id)
+                ->sum('in_det_qty');
+
             $mrp_mstr = new MrpMstr();
             $mrp_mstr->mrp_mstr_item = $item->item_mstr_id;
             $mrp_mstr->mrp_mstr_outstanding = $outstanding;
+            $mrp_mstr->mrp_mstr_saldo = $saldo;
             $mrp_mstr->mrp_mstr_cb = Auth::user()->id;
             $mrp_mstr->save();
 
@@ -151,19 +160,32 @@ class MrpMstrController extends Controller
 
             $data = DB::table('odm_mstr')
                 ->join('item_mstr', 'item_mstr.item_mstr_id', '=', 'odm_mstr.odm_mstr_child')
+                ->join('sales_det', 'sales_det.sales_det_id', '=', 'odm_mstr.odm_mstr_sodid')
                 ->where('item_pmcode', 'P')
                 ->where('odm_mstr.odm_mstr_child', $item->item_mstr_id)
+                ->groupBy('odm_mstr.odm_mstr_child', 'odm_mstr.odm_mstr_nbr', 'sales_det.sales_det_duedate')
+                ->select(
+                    'odm_mstr.odm_mstr_child',
+                    'odm_mstr.odm_mstr_nbr',
+                    DB::raw('SUM(CAST(odm_mstr.odm_mstr_req AS FLOAT)) as sumQtyReq'),
+                    'sales_det.sales_det_duedate',
+                )
                 ->get();
 
 
-            $mrp_det = new MrpDet();
-            $mrp_det->mrp_det_mstr = $mrp_mstr->mrp_mstr_id;
-            $mrp_det->mrp_det_item = $item->item_mstr_id;
-            $mrp_det->mrp_det_sales = $data[0]->odm_mstr_nbr;
-            // $mrp_det->mrp_det_date = $data[0]->odm_mstr_date;
-            $mrp_det->mrp_det_qtyreq = $data[0]->odm_mstr_req;
-            $mrp_det->mrp_det_cb = Auth::user()->id;
-            $mrp_det->save();
+            // loop the data
+
+            foreach ($data as $r) {
+
+                $mrp_det = new MrpDet();
+                $mrp_det->mrp_det_mstr = $mrp_mstr->mrp_mstr_id;
+                $mrp_det->mrp_det_item = $item->item_mstr_id;
+                $mrp_det->mrp_det_sales = $r->odm_mstr_nbr;
+                $mrp_det->mrp_det_date = $r->sales_det_duedate;
+                $mrp_det->mrp_det_qtyreq = $r->sumQtyReq;
+                $mrp_det->mrp_det_cb = Auth::user()->id;
+                $mrp_det->save();
+            }
         }
 
         return redirect()->route('MrpMstrs.index')->with('success', 'MRP has been generated');

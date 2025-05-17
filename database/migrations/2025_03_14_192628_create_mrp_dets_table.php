@@ -17,10 +17,10 @@ return new class extends Migration
             $table->bigInteger('mrp_det_item');
             $table->string('mrp_det_sales', 100)->nullable();
             $table->date('mrp_det_date')->nullable();
-            $table->decimal('mrp_det_qtyreq', 10, 2)->nullable();
-            $table->decimal('mrp_det_stock', 10, 2)->nullable();
-            $table->decimal('mrp_det_outstanding', 10, 2)->nullable();
-            $table->decimal('mrp_det_mr', 10, 2)->nullable();
+            $table->decimal('mrp_det_qtyreq', 18, 2)->nullable();
+            $table->decimal('mrp_det_stock', 18, 2)->nullable();
+            $table->decimal('mrp_det_outstanding', 18, 2)->nullable();
+            $table->decimal('mrp_det_mr', 18, 2)->nullable();
             $table->string('mrp_det_status')->nullable();
             $table->string('mrp_det_remarks')->nullable();
             $table->bigInteger('mrp_det_cb')->nullable();

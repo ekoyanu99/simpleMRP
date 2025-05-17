@@ -17,14 +17,14 @@ return new class extends Migration
             $table->string('odm_mstr_nbr')->nullable();
             $table->bigInteger('odm_mstr_fg')->nullable();
             $table->string('odm_mstr_fguom')->nullable();
-            $table->string('odm_mstr_qtyorder')->nullable();
+            $table->decimal('odm_mstr_qtyorder', 18, 2)->nullable();
             $table->string('odm_mstr_level')->nullable();
             $table->bigInteger('odm_mstr_parent')->nullable();
             $table->string('odm_mstr_parentuom')->nullable();
             $table->bigInteger('odm_mstr_child')->nullable();
             $table->string('odm_mstr_childuom')->nullable();
             $table->string('odm_mstr_rjrate')->nullable();
-            $table->string('odm_mstr_req')->nullable();
+            $table->decimal('odm_mstr_req', 18, 2)->nullable();
             $table->string('odm_mstr_status')->nullable();
             $table->bigInteger('odm_mstr_cb')->nullable();
             $table->timestamps();

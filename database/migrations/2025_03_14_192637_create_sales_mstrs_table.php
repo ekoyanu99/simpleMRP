@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('sales_mstr_date')->nullable();
             $table->date('sales_mstr_due_date')->nullable();
             $table->string('sales_mstr_status', 20)->nullable();
-            $table->decimal('sales_mstr_total', 10, 2)->nullable();
+            $table->decimal('sales_mstr_total', 20, 2)->nullable();
             $table->bigInteger('sales_mstr_cb')->nullable();
             $table->timestamps();
         });

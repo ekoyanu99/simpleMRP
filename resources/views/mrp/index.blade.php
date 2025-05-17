@@ -29,6 +29,7 @@
                             <th>Stock</th>
                             <th>Outstanding</th>
                             <th>Summary</th>
+                            <th>Uom</th>
                         </tr>
                     </thead>
 

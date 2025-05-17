@@ -16,10 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger('pod_det_mstr');
             $table->string('pod_det_item');
             $table->string('pod_det_desc')->nullable();
-            $table->decimal('pod_det_qty', 10, 2)->nullable();
+            $table->decimal('pod_det_qty', 18, 2)->nullable();
             $table->string('pod_det_uom')->nullable();
-            $table->decimal('pod_det_price', 10, 2)->nullable();
-            $table->decimal('pod_det_subtotal', 10, 2)->nullable();
+            $table->decimal('pod_det_price', 18, 2)->nullable();
+            $table->decimal('pod_det_subtotal', 20, 2)->nullable();
             $table->string('pod_det_status')->nullable();
             $table->string('pod_det_remarks')->nullable();
             $table->bigInteger('pod_det_cb')->nullable();

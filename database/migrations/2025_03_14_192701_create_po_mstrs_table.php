@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('po_mstr_arrival_date')->nullable();
             $table->string('po_mstr_status')->nullable();
             $table->string('po_mstr_remarks')->nullable();
-            $table->decimal('po_mstr_total', 10, 2)->nullable();
+            $table->decimal('po_mstr_total', 20, 2)->nullable();
             $table->bigInteger('po_mstr_cb')->nullable();
             $table->timestamps();
         });

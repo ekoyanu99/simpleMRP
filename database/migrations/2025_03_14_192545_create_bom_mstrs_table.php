@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('bom_mstr_id');
             $table->integer('bom_mstr_parent');
             $table->integer('bom_mstr_child');
-            $table->decimal('bom_mstr_qtyper', 10, 2);
+            $table->decimal('bom_mstr_qtyper', 18, 2);
             $table->date('bom_mstr_start');
             $table->date('bom_mstr_expire')->nullable();
             $table->string('bom_mstr_status');
