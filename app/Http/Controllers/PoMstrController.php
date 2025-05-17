@@ -48,7 +48,7 @@ class PoMstrController extends Controller
      */
     public function create()
     {
-        //
+        return redirect('PoMstrs');
     }
 
     /**
@@ -62,6 +62,8 @@ class PoMstrController extends Controller
 
             $id = Auth::user()->id;
 
+            // dd($request->all());
+
             $poMstr = PoMstr::create([
                 'po_mstr_nbr' => $request->po_mstr_nbr,
                 'po_mstr_date' => $request->po_mstr_date,
@@ -70,6 +72,7 @@ class PoMstrController extends Controller
                 'po_mstr_arrival_date' => $request->po_mstr_arrival_date,
                 'po_mstr_status' => 1,
                 'po_mstr_remarks' => $request->po_mstr_remarks,
+                'po_mstr_total' => 0,
                 'po_mstr_cb' => $id
             ]);
 

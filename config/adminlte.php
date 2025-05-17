@@ -64,11 +64,11 @@ return [
     */
 
     'logo' => '<b>simple</b>MRP',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo_img' => 'images/logo/simplemrp.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Admin Logo',
+    'logo_img_alt' => 'simpleMRP Logo',
 
     /*
     |--------------------------------------------------------------------------
@@ -257,7 +257,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => '/',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -330,59 +330,10 @@ return [
             'text' => 'Purchase Order',
             'url' => 'PoMstrs',
         ],
+        ['header' => 'PPIC'],
         [
-            'text' => 'multilevel',
-            'icon' => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-            ],
-        ],
-        ['header' => 'labels'],
-        [
-            'text' => 'important',
-            'icon_color' => 'red',
-            'url' => '#',
-        ],
-        [
-            'text' => 'warning',
-            'icon_color' => 'yellow',
-            'url' => '#',
-        ],
-        [
-            'text' => 'information',
-            'icon_color' => 'cyan',
-            'url' => '#',
+            'text' => 'Material Requisition',
+            'url' => 'MrpMstrs',
         ],
     ],
 

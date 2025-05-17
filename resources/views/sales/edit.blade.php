@@ -117,9 +117,12 @@
                                         <td>{{ $salesMstr->sales_mstr_nbr }}</td>
                                         <td>{{ $salesDet->itemMstr->item_name }}</td>
                                         <td>{{ $salesDet->sales_det_desc }}</td>
-                                        <td>{{ $salesDet->sales_det_qty }}</td>
-                                        <td>{{ $salesDet->sales_det_price }}</td>
-                                        <td>{{ $salesDet->sales_det_qty * $salesDet->sales_det_price }}</td>
+                                        <td>{{ $salesDet->sales_det_qty ? formatNumberV2($salesDet->sales_det_qty) : $salesDet->sales_det_qty }}
+                                        </td>
+                                        <td>{{ $salesDet->sales_det_price ? formatCurrency($salesDet->sales_det_price) : $salesDet->sales_det_price }}
+                                        </td>
+                                        <td>{{ $salesDet->sales_det_qty * $salesDet->sales_det_price ? formatCurrency($salesDet->sales_det_qty * $salesDet->sales_det_price) : $salesDet->sales_det_qty * $salesDet->sales_det_price }}
+                                        </td>
                                         <td>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">

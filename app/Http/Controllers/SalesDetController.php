@@ -86,7 +86,11 @@ class SalesDetController extends Controller
         $salesDet = SalesDet::findOrFail($id);
         $id = Auth::user()->id;
 
-        $total = $request->efid_Price * $request->sales_det_price;
+        $total = $request->efid_Price * $request->efid_Qty;
+
+        // dump($request->efid_Qty);
+        // dump($request->efid_Price);
+        // dd($total);
 
         $data = [
             'sales_det_date' => $request->efid_Date ?? $salesDet->sales_det_date,
@@ -111,9 +115,17 @@ class SalesDetController extends Controller
     public function destroy($salesDetId)
     {
         //
-        $salesDet = SalesDet::findOrFail($salesDetId);
+        $salesDet = SalesDet::with('salesMstr')->findOrFail($salesDetId);
+
+        // dd($salesDet);
 
         if ($salesDet->delete()) {
+
+            // $this->rowInserted($salesDet->sales_det_mstr, $salesDet->sales_det_id);
+            // delete odm_mstr
+            $sql = "DELETE FROM odm_mstr WHERE odm_mstr_nbr = ? AND odm_mstr_sodid = ?";
+            DB::delete($sql, [$salesDet->salesMstr->sales_mstr_nbr, $salesDet->sales_det_id]);
+
             return redirect()->back()->with('status', 'success');
         } else {
             return redirect()->back()->with('status', 'error');
@@ -160,7 +172,7 @@ class SalesDetController extends Controller
             $fg_um = $data->item_uom;
         }
 
-        dump($rowdata);
+        // dump($rowdata);
 
         // cek if existing on odm then delete
 
@@ -181,7 +193,7 @@ class SalesDetController extends Controller
 
 
         // dd($data1);
-        if (!empty($data)) {
+        if (!empty($data1)) {
 
             // looping bom dan insert berdasarkan level
 
@@ -191,7 +203,7 @@ class SalesDetController extends Controller
                 $child = $data1[$i]->bom_mstr_child;
                 $yield = $data1[$i]->yield;
                 $uom = $data1[$i]->uom;
-                $qty = $qtyReq * $yield;
+                $qty = $qtyReq * $data1[$i]->bom_mstr_qtyper;
                 $lvl = "LVL1";
 
                 $insOdm = DB::insert("INSERT INTO odm_mstr (odm_mstr_nbr, odm_mstr_sodid, odm_mstr_parent, odm_mstr_child, odm_mstr_rjrate, odm_mstr_childuom, odm_mstr_req, odm_mstr_level, odm_mstr_fg, odm_mstr_fguom, odm_mstr_qtyorder, odm_mstr_cb, created_at, updated_at) 
@@ -214,7 +226,7 @@ class SalesDetController extends Controller
                         $child = $data2[$j]->bom_mstr_child;
                         $yield = $data2[$j]->yield;
                         $uom = $data2[$j]->uom;
-                        $qty = $qtyReq * $yield;
+                        $qty = $qtyReq * $data1[$i]->bom_mstr_qtyper * $data2[$j]->bom_mstr_qtyper;
                         $lvl = "LVL2";
 
                         $insOdm = DB::insert("INSERT INTO odm_mstr (odm_mstr_nbr, odm_mstr_sodid, odm_mstr_parent, odm_mstr_child, odm_mstr_rjrate, odm_mstr_childuom, odm_mstr_req, odm_mstr_level, odm_mstr_fg, odm_mstr_fguom, odm_mstr_qtyorder, odm_mstr_cb, created_at, updated_at) 
@@ -237,7 +249,7 @@ class SalesDetController extends Controller
                                 $child = $data3[$k]->bom_mstr_child;
                                 $yield = $data3[$k]->yield;
                                 $uom = $data3[$k]->uom;
-                                $qty = $qtyReq * $yield;
+                                $qty = $qtyReq * $data1[$i]->bom_mstr_qtyper * $data2[$j]->bom_mstr_qtyper * $data3[$k]->bom_mstr_qtyper;
                                 $lvl = "LVL3";
 
                                 $insOdm = DB::insert("INSERT INTO odm_mstr (odm_mstr_nbr, odm_mstr_sodid, odm_mstr_parent, odm_mstr_child, odm_mstr_rjrate, odm_mstr_childuom, odm_mstr_req, odm_mstr_level, odm_mstr_fg, odm_mstr_fguom, odm_mstr_qtyorder, odm_mstr_cb, created_at, updated_at) 
@@ -260,7 +272,7 @@ class SalesDetController extends Controller
                                         $child = $data4[$l]->bom_mstr_child;
                                         $yield = $data4[$l]->yield;
                                         $uom = $data4[$l]->uom;
-                                        $qty = $qtyReq * $yield;
+                                        $qty = $qtyReq * $data1[$i]->bom_mstr_qtyper * $data2[$j]->bom_mstr_qtyper * $data3[$k]->bom_mstr_qtyper * $data4[$l]->bom_mstr_qtyper;
                                         $lvl = "LVL4";
 
                                         $insOdm = DB::insert("INSERT INTO odm_mstr (odm_mstr_nbr, odm_mstr_sodid, odm_mstr_parent, odm_mstr_child, odm_mstr_rjrate, odm_mstr_childuom, odm_mstr_req, odm_mstr_level, odm_mstr_fg, odm_mstr_fguom, odm_mstr_qtyorder, odm_mstr_cb, created_at, updated_at) 
@@ -283,7 +295,7 @@ class SalesDetController extends Controller
                                                 $child = $data5[$m]->bom_mstr_child;
                                                 $yield = $data5[$m]->yield;
                                                 $uom = $data5[$m]->uom;
-                                                $qty = $qtyReq * $yield;
+                                                $qty = $qtyReq * $data1[$i]->bom_mstr_qtyper * $data2[$j]->bom_mstr_qtyper * $data3[$k]->bom_mstr_qtyper * $data4[$l]->bom_mstr_qtyper * $data5[$m]->bom_mstr_qtyper;
                                                 $lvl = "LVL5";
 
                                                 $insOdm = DB::insert("INSERT INTO odm_mstr (odm_mstr_nbr, odm_mstr_sodid, odm_mstr_parent, odm_mstr_child, odm_mstr_rjrate, odm_mstr_childuom, odm_mstr_req, odm_mstr_level, odm_mstr_fg, odm_mstr_fguom, odm_mstr_qtyorder, odm_mstr_cb, created_at, updated_at) 

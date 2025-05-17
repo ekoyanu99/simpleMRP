@@ -106,12 +106,9 @@
                                         <td>{{ $poMstr->po_mstr_nbr }}</td>
                                         <td>{{ $poDet->itemMstr->item_name }}</td>
                                         <td>{{ $poDet->pod_det_desc }}</td>
-                                        <td>{{ $poDet->pod_det_qty ? formatNumberV2($poDet->pod_det_qty) : $poDet->pod_det_qty }}
-                                        </td>
-                                        <td>{{ $poDet->pod_det_price ? formatCurrency($poDet->pod_det_price) : $poDet->pod_det_price }}
-                                        </td>
-                                        <td>{{ $poDet->pod_det_qty * $poDet->pod_det_price ? formatCurrency($poDet->pod_det_qty * $poDet->pod_det_price) : $poDet->pod_det_qty * $poDet->pod_det_price }}
-                                        </td>
+                                        <td>{{ $poDet->pod_det_qty }}</td>
+                                        <td>{{ $poDet->pod_det_price }}</td>
+                                        <td>{{ $poDet->pod_det_qty * $poDet->pod_det_price }}</td>
                                         <td>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">

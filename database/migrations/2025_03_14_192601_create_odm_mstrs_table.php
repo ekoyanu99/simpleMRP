@@ -25,7 +25,8 @@ return new class extends Migration
             $table->string('odm_mstr_childuom')->nullable();
             $table->string('odm_mstr_rjrate')->nullable();
             $table->string('odm_mstr_req')->nullable();
-            $table->integer('odm_mstr_cb')->nullable();
+            $table->string('odm_mstr_status')->nullable();
+            $table->bigInteger('odm_mstr_cb')->nullable();
             $table->timestamps();
         });
     }

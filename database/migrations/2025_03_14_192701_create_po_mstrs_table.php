@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('po_mstr', function (Blueprint $table) {
             $table->id('po_mstr_id');
             $table->string('po_mstr_nbr', 50);
-            $table->date('po_mstr_date');
-            $table->unsignedBigInteger('po_mstr_vendor');
-            $table->date('po_mstr_delivery_date');
-            $table->date('po_mstr_arrival_date');
-            $table->string('po_mstr_status');
-            $table->string('po_mstr_remarks');
-            $table->decimal('po_mstr_total', 10, 2);
-            $table->unsignedBigInteger('po_mstr_cb');
+            $table->date('po_mstr_date')->nullable();
+            $table->unsignedBigInteger('po_mstr_vendor')->nullable();
+            $table->date('po_mstr_delivery_date')->nullable();
+            $table->date('po_mstr_arrival_date')->nullable();
+            $table->string('po_mstr_status')->nullable();
+            $table->string('po_mstr_remarks')->nullable();
+            $table->decimal('po_mstr_total', 10, 2)->nullable();
+            $table->bigInteger('po_mstr_cb')->nullable();
             $table->timestamps();
         });
     }

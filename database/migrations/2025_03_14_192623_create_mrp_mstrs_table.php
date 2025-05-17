@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('mrp_mstr', function (Blueprint $table) {
             $table->id('mrp_mstr_id');
             $table->string('mrp_mstr_item');
-            $table->decimal('mrp_mstr_saldo', 10, 2);
-            $table->decimal('mrp_mstr_outstanding', 10, 2);
-            $table->decimal('mrp_mstr_summary', 10, 2);
+            $table->decimal('mrp_mstr_saldo', 10, 2)->nullable();
+            $table->decimal('mrp_mstr_outstanding', 10, 2)->nullable();
+            $table->decimal('mrp_mstr_summary', 10, 2)->nullable();
             $table->boolean('mrp_mstr_proceded')->default(false);
-            $table->bigInteger('mrp_mstr_cb');
+            $table->bigInteger('mrp_mstr_cb')->nullable();
             $table->timestamps();
         });
     }

@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 
 @section('title', $title ?? 'simpleMRP')
+<link rel="icon" type="image/png" href="{{ asset('images/logo/simplemrp.png') }}">
 
 @section('content_header')
     <h1>{{ $title ?? 'simpleMRP' }}</h1>

@@ -40,8 +40,12 @@ class SalesMstrController extends Controller
                 return $sales->updated_at->diffForHumans();
             })
             ->addColumn('sales_mstr_total', function ($sales) {
-                return number_format($sales->sales_mstr_total, 2);
+                return formatCurrency($sales->sales_mstr_total);
             })
+            ->editColumn('sales_mstr_due_date', function ($sales) {
+                return $sales->sales_mstr_due_date ? formatWaktuHuman($sales->sales_mstr_due_date) : '';
+            })
+
             ->rawColumns(['action'])
             ->make(true);
     }
@@ -87,7 +91,7 @@ class SalesMstrController extends Controller
     {
         //
         $salesMstr = SalesMstr::with(['salesDet', 'salesDet.itemMstr'])->findOrFail($salesMstrId);
-        $items = ItemMstr::all();
+        $items = ItemMstr::where('item_prod_line', '=', 'FG')->get();
         return view('sales.edit', compact(['salesMstr', 'items']));
     }
 

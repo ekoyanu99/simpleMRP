@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('sales_mstr', function (Blueprint $table) {
             $table->id('sales_mstr_id');
             $table->string('sales_mstr_nbr', 20)->unique();
-            $table->string('sales_mstr_bill');
-            $table->string('sales_mstr_ship');
-            $table->date('sales_mstr_date');
-            $table->date('sales_mstr_due_date');
-            $table->string('sales_mstr_status', 20);
-            $table->decimal('sales_mstr_total', 10, 2);
-            $table->bigInteger('sales_mstr_cb');
+            $table->string('sales_mstr_bill')->nullable();
+            $table->string('sales_mstr_ship')->nullable();
+            $table->date('sales_mstr_date')->nullable();
+            $table->date('sales_mstr_due_date')->nullable();
+            $table->string('sales_mstr_status', 20)->nullable();
+            $table->decimal('sales_mstr_total', 10, 2)->nullable();
+            $table->bigInteger('sales_mstr_cb')->nullable();
             $table->timestamps();
         });
     }

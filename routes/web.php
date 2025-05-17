@@ -36,7 +36,13 @@ Route::middleware('auth')->group(function () {
     // MrpMstr
     Route::resource('MrpMstrs', MrpMstrController::class);
     Route::get('/MrpMstr/json', [MrpMstrController::class, 'data'])->name('MrpMstr.data');
+    Route::get('/MrpMstr/detail/{id}', [MrpMstrController::class, 'detailData'])->name('MrpMstr.detailData');
     Route::get('MrpMstr/{mrpMstrId}/delete', [MrpMstrController::class, 'destroy']);
+
+    // genearte MRP
+    Route::post('/MrpMstr/generateMrp', [MrpMstrController::class, 'generateMrp'])->name('MrpMstr.generateMrp');
+
+
     // MrpDet
     Route::resource('MrpDets', MrpDetController::class);
     Route::get('/MrpDet/json', [MrpDetController::class, 'data'])->name('MrpDet.data');

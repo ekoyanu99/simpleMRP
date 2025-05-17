@@ -5,6 +5,12 @@
 @section('content_header', 'Item Master')
 
 @section('content')
+
+    {{-- Minimal with title and dismissable --}}
+    <x-adminlte-alert icon="fas fa-user" dismissable>
+        User has logged in!
+    </x-adminlte-alert>
+
     <div class="card">
         <div class="card-header">
             <div class="row">

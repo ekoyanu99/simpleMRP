@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('bom_mstr_expire')->nullable();
             $table->string('bom_mstr_status');
             $table->string('bom_mstr_remark');
-            $table->integer('bom_mstr_cb');
+            $table->bigInteger('bom_mstr_cb');
             $table->timestamps();
         });
     }

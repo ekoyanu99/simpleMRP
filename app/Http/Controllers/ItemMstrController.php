@@ -28,14 +28,15 @@ class ItemMstrController extends Controller
 
         $q = ItemMstr::query()->with('user');
 
-        $items = $q->get();
-
         // add column time to diffForHumans
-        return DataTables::of($items)
+        return DataTables::of($q)
             ->addIndexColumn()
             ->addColumn('action', 'itemmstr.datatable')
             ->addColumn('updated_at', function ($item) {
-                return $item->updated_at->diffForHumans();
+                return $item->updated_at ? formatWaktuHuman($item->updated_at) : '';
+            })
+            ->editColumn('item_rjrate', function ($item) {
+                return $item->item_rjrate ? formatNumberV2($item->item_rjrate) : 0;
             })
             ->rawColumns(['action'])
             ->make(true);

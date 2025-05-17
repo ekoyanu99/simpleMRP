@@ -34,7 +34,8 @@ $(document).ready(function() {
             },
             {
                 data: "po_mstr_delivery_date",
-                name: "po_mstr_delivery_date"
+                name: "po_mstr_delivery_date",
+                className: "text-nowrap text-end"
             },
             {
                 data: "po_mstr_arrival_date",

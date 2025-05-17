@@ -47,7 +47,10 @@ class BomMstrController extends Controller
             ->addIndexColumn()
             ->addColumn('action', 'bommstr.datatable')
             ->addColumn('updated_at', function ($item) {
-                return $item->updated_at ? \Carbon\Carbon::parse($item->updated_at)->diffForHumans() : '-';
+                return $item->updated_at ? formatWaktuHuman($item->updated_at) : '';
+            })
+            ->editColumn('bom_mstr_qtyper', function ($item) {
+                return $item->bom_mstr_qtyper ? formatNumberV2($item->bom_mstr_qtyper) : 0;
             })
             ->rawColumns(['action'])
             ->make(true);

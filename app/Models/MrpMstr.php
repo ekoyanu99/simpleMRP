@@ -21,4 +21,15 @@ class MrpMstr extends Model
     protected $casts = [
         'mrp_mstr_proceded' => 'boolean'
     ];
+
+    // 
+    public function itemMstr()
+    {
+        return $this->belongsTo(ItemMstr::class, 'mrp_mstr_item', 'item_mstr_id');
+    }
+
+    public function mrpDet()
+    {
+        return $this->hasMany(MrpDet::class, 'mrp_det_mstr', 'mrp_mstr_id');
+    }
 }
