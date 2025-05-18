@@ -20,7 +20,19 @@ class BomMstrSeeder extends Seeder
             'OIL002',
             'SK0001',
             'PA0001',
-            'PA0002'
+            'PA0002',
+            'SP001',
+            'SP002',
+            'SABN01',
+            'ADTIV1',
+            'BASE01',
+            'EXF001',
+            'AROMA1',
+            'GLY001',
+            'WTR001',
+            'ESS001',
+            'ESS002',
+            'CLY001'
         ])->pluck('item_mstr_id', 'item_name');
 
         $datas = [
@@ -47,6 +59,37 @@ class BomMstrSeeder extends Seeder
             // Level 2 - Campuran Pewangi (Sama untuk semua FG)
             ['bom_mstr_parent' => $items['CP0001'], 'bom_mstr_child' => $items['PA0001'], 'bom_mstr_qtyper' => 50],
             ['bom_mstr_parent' => $items['CP0001'], 'bom_mstr_child' => $items['PA0002'], 'bom_mstr_qtyper' => 100],
+
+            // Level 1 - Sabun Premium Lavender (FG)
+            ['bom_mstr_parent' => $items['SP001'], 'bom_mstr_child' => $items['SABN01'], 'bom_mstr_qtyper' => 0.1], // 100g sabun base
+            ['bom_mstr_parent' => $items['SP001'], 'bom_mstr_child' => $items['ADTIV1'], 'bom_mstr_qtyper' => 0.02], // 20g aditif
+            ['bom_mstr_parent' => $items['SP001'], 'bom_mstr_child' => $items['AROMA1'], 'bom_mstr_qtyper' => 5], // 5ml aroma
+
+            // Level 1 - Sabun Premium Peppermint (FG)
+            ['bom_mstr_parent' => $items['SP002'], 'bom_mstr_child' => $items['SABN01'], 'bom_mstr_qtyper' => 0.1],
+            ['bom_mstr_parent' => $items['SP002'], 'bom_mstr_child' => $items['ADTIV1'], 'bom_mstr_qtyper' => 0.02],
+            ['bom_mstr_parent' => $items['SP002'], 'bom_mstr_child' => $items['ESS002'], 'bom_mstr_qtyper' => 5], // Langsung pakai essential oil
+
+            // Level 2 - Sabun Base Premium
+            ['bom_mstr_parent' => $items['SABN01'], 'bom_mstr_child' => $items['BASE01'], 'bom_mstr_qtyper' => 0.8], // 80% base
+            ['bom_mstr_parent' => $items['SABN01'], 'bom_mstr_child' => $items['GLY001'], 'bom_mstr_qtyper' => 0.15], // 15% gliserin
+            ['bom_mstr_parent' => $items['SABN01'], 'bom_mstr_child' => $items['WTR001'], 'bom_mstr_qtyper' => 0.05], // 5% air
+
+            // Level 2 - Paket Aditif Premium
+            ['bom_mstr_parent' => $items['ADTIV1'], 'bom_mstr_child' => $items['EXF001'], 'bom_mstr_qtyper' => 0.6], // 60% eksfolian
+            ['bom_mstr_parent' => $items['ADTIV1'], 'bom_mstr_child' => $items['CLY001'], 'bom_mstr_qtyper' => 0.4], // 40% clay
+
+            // Level 3 - Base Sabun Transparan
+            ['bom_mstr_parent' => $items['BASE01'], 'bom_mstr_child' => $items['GLY001'], 'bom_mstr_qtyper' => 0.7],
+            ['bom_mstr_parent' => $items['BASE01'], 'bom_mstr_child' => $items['WTR001'], 'bom_mstr_qtyper' => 0.3],
+
+            // Level 3 - Eksfolian Alami
+            ['bom_mstr_parent' => $items['EXF001'], 'bom_mstr_child' => $items['CLY001'], 'bom_mstr_qtyper' => 0.5],
+            ['bom_mstr_parent' => $items['EXF001'], 'bom_mstr_child' => $items['WTR001'], 'bom_mstr_qtyper' => 0.5],
+
+            // Level 3 - Aroma Terapi Lavender
+            ['bom_mstr_parent' => $items['AROMA1'], 'bom_mstr_child' => $items['ESS001'], 'bom_mstr_qtyper' => 0.9], // 90% essential oil
+            ['bom_mstr_parent' => $items['AROMA1'], 'bom_mstr_child' => $items['GLY001'], 'bom_mstr_qtyper' => 0.1], // 10% gliserin sebagai carrier
         ];
 
 

@@ -18,6 +18,10 @@ class MrpDet extends Model
         'mrp_det_date',
         'mrp_det_qtyreq',
         'mrp_det_stock',
-        'mrp_det_mr'
+        'mrp_det_outstanding',
+        'mrp_det_mr',
+        'mrp_det_status',
+        'mrp_det_remarks',
+        'mrp_det_cb'
     ];
 }

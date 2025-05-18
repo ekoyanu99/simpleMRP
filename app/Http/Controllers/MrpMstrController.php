@@ -112,82 +112,126 @@ class MrpMstrController extends Controller
 
     public function generateMrp()
     {
-
-        // Truncate the table mrp_mstr and mrp_det
+        // Truncate tables
         MrpMstr::truncate();
         MrpDet::truncate();
 
-        // SELECT item_mstr_id FROM odm_mstr, item_mstr WHERE item_mstr_id = odm_mstr_child AND item_pmcode = 'P' GROUP BY item_mstr_id
-
-        $odm_mstr = DB::table('odm_mstr')
+        // Get all parent items that have child items with PM code 'P'
+        $parentItems = DB::table('odm_mstr')
             ->join('item_mstr', 'item_mstr.item_mstr_id', '=', 'odm_mstr.odm_mstr_child')
             ->where('item_pmcode', 'P')
             ->groupBy('item_mstr.item_mstr_id')
             ->select('item_mstr.item_mstr_id')
             ->get();
 
-        // loop to get 
-        /*
-        a. stock item
-        b. outstanding 
-        */
-
-        foreach ($odm_mstr as $item) {
-            // outstanding : get qty from po_det item tsb
-            $outstanding = DB::table('po_det')
+        foreach ($parentItems as $item) {
+            $outstandingPo = DB::table('po_det')
                 ->where('pod_det_item', $item->item_mstr_id)
-                ->sum('pod_det_qty');
+                ->sum(DB::raw('pod_det_qty'));
 
-            // get saldo from in_det
-            $saldo = DB::table('in_det')
+            // Calculate current stock
+            $currentStock = DB::table('in_det')
                 ->where('in_det_item', $item->item_mstr_id)
                 ->sum('in_det_qty');
 
-            $mrp_mstr = new MrpMstr();
-            $mrp_mstr->mrp_mstr_item = $item->item_mstr_id;
-            $mrp_mstr->mrp_mstr_outstanding = $outstanding;
-            $mrp_mstr->mrp_mstr_saldo = $saldo;
-            $mrp_mstr->mrp_mstr_cb = Auth::user()->id;
-            $mrp_mstr->save();
+            // Calculate total demand for this item
+            $totalDemand = DB::table('odm_mstr')
+                ->where('odm_mstr_child', $item->item_mstr_id)
+                ->sum(DB::raw('CAST(odm_mstr_req AS FLOAT)'));
 
-            // $table->unsignedBigInteger('mrp_det_mstr')->nullable(false);
-            // $table->bigInteger('mrp_det_item');
-            // $table->string('mrp_det_sales', 100)->nullable();
-            // $table->date('mrp_det_date')->nullable();
-            // $table->decimal('mrp_det_qtyreq', 10, 2)->nullable();
+            // Calculate MR (Material Requirement) - initial calculation
+            $materialRequirement = max(0, $totalDemand - $currentStock - $outstandingPo);
 
-            // insert to mrp det
+            // Create MRP header
+            $mrpHeader = MrpMstr::create([
+                'mrp_mstr_item' => $item->item_mstr_id,
+                'mrp_mstr_qtyreq' => $totalDemand,
+                'mrp_mstr_outstanding' => $outstandingPo,
+                'mrp_mstr_saldo' => $currentStock,
+                'mrp_mstr_summary' => $materialRequirement,
+                'mrp_mstr_proceded' => false, // Will be updated after detail processing
+                'mrp_mstr_cb' => Auth::id()
+            ]);
 
-            $data = DB::table('odm_mstr')
-                ->join('item_mstr', 'item_mstr.item_mstr_id', '=', 'odm_mstr.odm_mstr_child')
+            // Get all demand details for this item
+            $demands = DB::table('odm_mstr')
                 ->join('sales_det', 'sales_det.sales_det_id', '=', 'odm_mstr.odm_mstr_sodid')
-                ->where('item_pmcode', 'P')
-                ->where('odm_mstr.odm_mstr_child', $item->item_mstr_id)
-                ->groupBy('odm_mstr.odm_mstr_child', 'odm_mstr.odm_mstr_nbr', 'sales_det.sales_det_duedate')
+                ->where('odm_mstr_child', $item->item_mstr_id)
                 ->select(
-                    'odm_mstr.odm_mstr_child',
-                    'odm_mstr.odm_mstr_nbr',
-                    DB::raw('SUM(CAST(odm_mstr.odm_mstr_req AS FLOAT)) as sumQtyReq'),
-                    'sales_det.sales_det_duedate',
+                    'odm_mstr.odm_mstr_nbr as sales_order',
+                    'sales_det.sales_det_duedate as due_date',
+                    DB::raw('SUM(odm_mstr.odm_mstr_req) as qty_required')
                 )
+                ->groupBy('odm_mstr.odm_mstr_nbr', 'sales_det.sales_det_duedate')
+                ->orderBy('sales_det.sales_det_duedate')
                 ->get();
 
+            // Initialize available resources
+            $availableStock = $currentStock;
+            $availableOutstanding = $outstandingPo;
+            $totalMr = 0;
 
-            // loop the data
+            foreach ($demands as $demand) {
+                $kebutuhan = $demand->qty_required;
+                $allocated = 0;
+                $issued = 0;
+                $mr = 0;
 
-            foreach ($data as $r) {
+                // Calculate how much we can fulfill from available resources
+                $fulfilled = $allocated;
+                $remainingNeed = $kebutuhan - $fulfilled;
 
-                $mrp_det = new MrpDet();
-                $mrp_det->mrp_det_mstr = $mrp_mstr->mrp_mstr_id;
-                $mrp_det->mrp_det_item = $item->item_mstr_id;
-                $mrp_det->mrp_det_sales = $r->odm_mstr_nbr;
-                $mrp_det->mrp_det_date = $r->sales_det_duedate;
-                $mrp_det->mrp_det_qtyreq = $r->sumQtyReq;
-                $mrp_det->mrp_det_cb = Auth::user()->id;
-                $mrp_det->save();
+                // Try to fulfill from available stock
+                if ($remainingNeed > 0 && $availableStock > 0) {
+                    $takeFromStock = min($remainingNeed, $availableStock);
+                    $fulfilled += $takeFromStock;
+                    $availableStock -= $takeFromStock;
+                    $remainingNeed = $kebutuhan - $fulfilled;
+                }
+
+                // Try to fulfill from outstanding PO
+                if ($remainingNeed > 0 && $availableOutstanding > 0) {
+                    $takeFromOutstanding = min($remainingNeed, $availableOutstanding);
+                    $fulfilled += $takeFromOutstanding;
+                    $availableOutstanding -= $takeFromOutstanding;
+                    $remainingNeed = $kebutuhan - $fulfilled;
+                }
+
+                // Remaining need becomes Material Requirement (MR)
+                $mr = max(0, $remainingNeed);
+                $totalMr += $mr;
+
+                // Determine status
+                $status = 'Fulfilled';
+                if ($mr > 0) {
+                    $status = 'Shortage';
+                } elseif ($fulfilled < $kebutuhan) {
+                    $status = 'Partial';
+                }
+
+                // Create MRP detail
+                MrpDet::create([
+                    'mrp_det_mstr' => $mrpHeader->mrp_mstr_id,
+                    'mrp_det_item' => $item->item_mstr_id,
+                    'mrp_det_sales' => $demand->sales_order,
+                    'mrp_det_date' => $demand->due_date,
+                    'mrp_det_qtyreq' => $kebutuhan,
+                    'mrp_det_stock' => $allocated, // Using allocated as stock
+                    'mrp_det_outstanding' => min($kebutuhan - $allocated, $outstandingPo),
+                    'mrp_det_mr' => $mr,
+                    'mrp_det_status' => $status,
+                    'mrp_det_remarks' => $mr > 0 ? 'Need to purchase' : 'Stock available',
+                    'mrp_det_cb' => Auth::id()
+                ]);
             }
+
+            // Update header with final MR summary
+            $mrpHeader->update([
+                'mrp_mstr_summary' => $totalMr,
+                'mrp_mstr_proceded' => true
+            ]);
         }
 
-        return redirect()->route('MrpMstrs.index')->with('success', 'MRP has been generated');
+        return redirect()->route('MrpMstrs.index')->with('success', 'MRP has been generated successfully');
     }
 }

@@ -13,12 +13,16 @@
 
     <div class="card">
         <div class="card-header">
-            <div class="row">
-                <div class="col-sm-12 col-md-4 col-lg-auto mt-1 ">
-                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalAddItem">
-                        Add Item
-                    </button>
+            <div class="d-flex justify-content-between align-items-center flex-column flex-md-row text-md-start text-center">
+                <div class="d-flex flex-column mb-2 mb-md-0">
+                    <div class="fw-semibold">
+                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalAddItem">
+                            <i class="fas fa-plus-circle me-1"></i> Add Item
+                        </button>
+                    </div>
                 </div>
+                <x-action-button-header :show-export="true" />
+
             </div>
         </div>
         <div class="card-body">

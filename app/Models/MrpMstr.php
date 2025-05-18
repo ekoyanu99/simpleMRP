@@ -13,6 +13,8 @@ class MrpMstr extends Model
     protected $primaryKey = 'mrp_mstr_id';
     protected $fillable = [
         'mrp_mstr_item',
+        'mrp_mstr_qtyreq',
+        'mrp_mstr_outstanding',
         'mrp_mstr_saldo',
         'mrp_mstr_summary',
         'mrp_mstr_proceded',

@@ -81,8 +81,6 @@ class InDetController extends Controller
                 'in_det_cb' => $id
             ]);
 
-            dd($inDet);
-
             return redirect()->back()->with('status', 'success');
         } catch (\Throwable $th) {
             return redirect()->back()->with('status', 'error');

@@ -7,6 +7,7 @@
     <h1>{{ $title ?? 'simpleMRP' }}</h1>
 @stop
 
+@section('plugins.Select2', true)
 @section('plugins.Datatables', true)
 
 @section('content')
