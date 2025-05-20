@@ -9,13 +9,13 @@
             </button>
 
             <!-- Excel Export -->
-            <button type="button" class="btn btn-sm bg-success" data-bs-dismiss="modal">
+            <button type="button" class="btn btn-sm bg-success" data-dismiss="modal">
                 <i class="fas fa-file-excel me-1"></i>
                 <span class="d-none d-md-inline">Export Excel</span>
             </button>
 
             <!-- PDF Export -->
-            <button type="button" class="btn btn-sm bg-danger" data-bs-dismiss="modal">
+            <button type="button" class="btn btn-sm bg-danger" data-dismiss="modal">
                 <i class="fas fa-file-pdf me-1"></i>
                 <span class="d-none d-md-inline">Export PDF</span>
             </button>
@@ -30,13 +30,13 @@
         </button>
 
         <!-- Discard Button -->
-        <button type="button" class="btn btn-sm btn-dark" data-bs-dismiss="modal">
+        <button type="button" class="btn btn-sm btn-dark" data-dismiss="modal">
             <i class="fas fa-times me-1"></i>
             <span class="d-none d-md-inline">Discard</span>
         </button>
 
         <!-- Filter Button -->
-        <button type="button" class="btn btn-sm bg-indigo" id="f_Sfilter" data-bs-dismiss="modal">
+        <button type="button" class="btn btn-sm bg-indigo" id="f_Sfilter" data-dismiss="modal">
             <i class="fas fa-filter me-1"></i>
             <span class="d-none d-md-inline">Filter</span>
         </button>

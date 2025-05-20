@@ -12,12 +12,13 @@ $(document).ready(function() {
         ajax: {
             url: "/ItemMstr/json",
             data: function(d) {
-                d.item_name = $("#f_item_name").val();
-                d.item_desc = $("#f_item_desc").val();
-                d.item_pmcode = $("#f_item_pmcode").val();
-                d.item_prod_line = $("#f_item_prod_line").val();
-                d.item_rjrate = $("#f_item_rjrate").val();
-                d.item_uom = $("#f_item_uom").val();
+                d.f_item_name = $("#f_item_name").val();
+                d.f_item_desc = $("#f_item_desc").val();
+                d.f_item_pmcode = $("#f_item_pmcode").val();
+                d.f_item_prod_line = $("#f_item_prod_line").val();
+                d.f_item_rjrate = $("#f_item_rjrate").val();
+                d.f_item_uom = $("#f_item_uom").val();
+                d.isExactMatch = $("#isExactMatch").val();
             },
         },
         columns: [{
@@ -59,6 +60,7 @@ $(document).ready(function() {
     });
 
     $('#f_Sfilter, #f_addFilterForm, #f_CFilter').on('click', function() {
+        // console.log("Filter button clicked");
         table.draw();
     });
 });
@@ -66,4 +68,30 @@ $(document).ready(function() {
 // Clear form filter
 function clearForm() {
     $("#addFilterForm")[0].reset();
+}
+
+function exportReport() {
+    console.log("Export Report");
+    document.getElementById('exportBtn2').addEventListener('click', function () {
+
+        var f_item_name = $("#f_item_name").val();
+        var f_item_desc = $("#f_item_desc").val();
+        var f_item_pmcode = $("#f_item_pmcode").val();
+        var f_item_prod_line = $("#f_item_prod_line").val();
+        var f_item_rjrate = $("#f_item_rjrate").val();
+        var f_item_uom = $("#f_item_uom").val();
+        var isExactMatch = $("#isExactMatch").val();
+        
+        var exportUrl = 'ItemMstrList/export?';
+        exportUrl += 'f_item_name=' + f_item_name;
+        exportUrl += '&f_item_desc=' + f_item_desc;
+        exportUrl += '&f_item_pmcode=' + f_item_pmcode;
+        exportUrl += '&f_item_prod_line=' + f_item_prod_line;
+        exportUrl += '&f_item_rjrate=' + f_item_rjrate;
+        exportUrl += '&f_item_uom=' + f_item_uom;
+        exportUrl += '&isExactMatch=' + isExactMatch;
+
+        window.location.href = exportUrl;
+
+    });
 }

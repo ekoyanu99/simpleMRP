@@ -25,9 +25,9 @@ class BomMstrController extends Controller
     public function data(Request $request)
     {
 
-        // if (!$request->ajax()) {
-        //     abort(403, 'Unauthorized action');
-        // }
+        if (!$request->ajax()) {
+            abort(403, 'Unauthorized action');
+        }
 
         $q = DB::table(DB::raw('item_mstr, bom_mstr AS ps'))
             ->selectRaw('
@@ -40,8 +40,23 @@ class BomMstrController extends Controller
                 ps.*')
             ->leftJoin(DB::raw('item_mstr AS pt1'), 'ps.bom_mstr_parent', '=', 'pt1.item_mstr_id')
             ->leftJoin(DB::raw('item_mstr AS pt2'), 'ps.bom_mstr_child', '=', 'pt2.item_mstr_id')
-            ->whereRaw('item_mstr.item_mstr_id = ps.bom_mstr_parent')
-            ->get();
+            ->whereRaw('item_mstr.item_mstr_id = ps.bom_mstr_parent');
+
+        if ($request->filled('f_item_parent_name')) {
+            $q->where('item_mstr.item_name', 'like', '%' . $request->input('f_item_parent_name') . '%');
+        }
+
+        if ($request->filled('f_item_parent_desc')) {
+            $q->where('item_mstr.item_desc', 'like', '%' . $request->input('f_item_parent_desc') . '%');
+        }
+
+        if ($request->filled('f_item_child_name')) {
+            $q->where('pt2.item_name', 'like', '%' . $request->input('f_item_child_name') . '%');
+        }
+
+        if ($request->filled('f_item_child_desc')) {
+            $q->where('pt2.item_desc', 'like', '%' . $request->input('f_item_child_desc') . '%');
+        }
 
         return DataTables::of($q)
             ->addIndexColumn()

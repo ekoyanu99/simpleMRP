@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ItemMstrExport;
 use Illuminate\Http\Request;
 use App\Models\ItemMstr;
 use App\Http\Requests\StoreItemMstrRequest;
 use App\Http\Requests\UpdateItemMstrRequest;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ItemMstrController extends Controller
 {
@@ -26,9 +28,8 @@ class ItemMstrController extends Controller
             abort(403, 'Unauthorized action');
         }
 
-        $q = ItemMstr::query()->with('user');
+        $q = ItemMstr::with('user')->filter($request);
 
-        // add column time to diffForHumans
         return DataTables::of($q)
             ->addIndexColumn()
             ->addColumn('action', 'itemmstr.datatable')
@@ -40,6 +41,11 @@ class ItemMstrController extends Controller
             })
             ->rawColumns(['action'])
             ->make(true);
+    }
+
+    public function export()
+    {
+        return Excel::download(new ItemMstrExport, 'ItemMstr.xlsx');
     }
 
     /**

@@ -62,13 +62,12 @@
                                     Item
                                 </label>
 
-                                <select name="in_det_item" id="in_det_item" class="form-control form-control-sm" required
-                                    onchange="getDesc()">
-                                    <option value="">Select Item</option>
+                                <x-adminlte-select2 name="in_det_item" id="in_det_item" onchange="getDesc()">
+                                    <option value="">Select an item</option>
                                     @foreach ($items as $item)
                                         <option value="{{ $item->item_mstr_id }}">{{ $item->item_name }}</option>
                                     @endforeach
-                                </select>
+                                </x-adminlte-select2>
                             </div>
 
                             <div class="form-group col-md-6">

@@ -12,7 +12,11 @@ $(document).ready(function() {
         ajax: {
             url: "/BomMstr/json",
             data: function(d) {
-
+                d.f_item_parent_name = $("#f_item_parent_name").val();
+                d.f_item_parent_desc = $("#f_item_parent_desc").val();
+                d.f_item_child_name = $("#f_item_child_name").val();
+                d.f_item_child_desc = $("#f_item_child_desc").val();
+                d.isExactMatch = $("#isExactMatch").val();
             },
         },
         columns: [{

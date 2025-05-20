@@ -26,6 +26,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('ItemMstrs', ItemMstrController::class);
     Route::get('/ItemMstr/json', [ItemMstrController::class, 'data'])->name('ItemMstr.data');
     Route::get('ItemMstr/{itemMstrId}/delete', [ItemMstrController::class, 'destroy']);
+    Route::get('ItemMstrList/export', [ItemMstrController::class, 'export'])->name('ItemMstrList.export');
+
     // BomMstr
     Route::resource('BomMstrs', BomMstrController::class);
     Route::get('/BomMstr/json', [BomMstrController::class, 'data'])->name('BomMstr.data');

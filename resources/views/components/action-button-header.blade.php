@@ -1,12 +1,12 @@
 <div class="d-flex gap-2">
     @if ($showExport ?? false)
-        <button type="button" class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#modalExport">
+        <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#modalExport">
             <i class="fas fa-file-export mr-1"></i>
             <span class="d-none d-md-inline">Export To</span>
         </button>
     @endif
 
-    <button type="button" class="btn btn-sm bg-dark" data-bs-toggle="modal" data-bs-target="#modalFilter">
+    <button type="button" class="btn btn-sm bg-indigo" data-toggle="modal" data-target="#modalFilter">
         <i class="fas fa-filter mr-1"></i>
         <span class="d-none d-md-inline">Filter</span>
     </button>
@@ -17,7 +17,7 @@
     </button>
 
     @if ($showMigrate ?? false)
-        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#modalMigrate">
+        <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalMigrate">
             <i class="fas fa-random mr-1"></i>
             <span class="d-none d-md-inline">Migrate</span>
         </button>
