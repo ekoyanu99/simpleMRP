@@ -311,33 +311,69 @@ return [
         ],
 
         // Sidebar items:
-        ['header' => 'Engineeering'],
+        // ==================== ENGINEERING ====================
+        ['header' => 'ENGINEERING'],
         [
             'text' => 'Item Master',
             'url' => 'ItemMstrs',
+            'icon' => 'fas fa-fw fa-boxes',
         ],
         [
             'text' => 'Bill of Material',
             'url' => 'BomMstrs',
+            'icon' => 'fas fa-fw fa-list-alt',
         ],
-        ['header' => 'Sales'],
+
+        // ==================== SALES ====================
+        ['header' => 'SALES'],
         [
-            'text' => 'Sales',
+            'text' => 'Sales Orders',
             'url' => 'SalesMstrs',
+            'icon' => 'fas fa-fw fa-handshake',
         ],
-        ['header' => 'Purchasing'],
+
+        // ==================== PURCHASING ====================
+        ['header' => 'PURCHASING'],
         [
             'text' => 'Purchase Order',
             'url' => 'PoMstrs',
+            'icon' => 'fas fa-fw fa-file-invoice-dollar',
         ],
+
+        // ==================== PPIC ====================
         ['header' => 'PPIC'],
         [
             'text' => 'Material Requisition',
             'url' => 'MrpMstrs',
+            'icon' => 'fas fa-fw fa-clipboard-check',
         ],
         [
             'text' => 'Inventory Detail',
             'url' => 'InDets',
+            'icon' => 'fas fa-fw fa-warehouse',
+        ],
+        ['header' => 'Config'],
+        [
+            'text' => 'User Access',
+            'icon' => 'fas fa-fw fa-users-cog',
+            'submenu' => [
+                [
+                    'text' => 'Users',
+                    'url' => '/UserMstrList',
+                    'icon' => 'fas fa-fw fa-users',
+                    'can' => 'config.user.read',
+                ],
+                [
+                    'text' => 'Roles',
+                    'url' => '/RoleMstrs',
+                    'icon' => 'fas fa-fw fa-user-tag',
+                ],
+                [
+                    'text' => 'Permissions',
+                    'url' => '/PermissionMstrs',
+                    'icon' => 'fas fa-fw fa-key',
+                ],
+            ],
         ],
     ],
 

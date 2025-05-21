@@ -7,15 +7,12 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <div class="d-flex justify-content-between align-items-center flex-column flex-md-row text-md-start text-center">
-                <div class="d-flex flex-column mb-2 mb-md-0">
-                    <div class="fw-semibold">
-                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalAddSales">
-                            <i class="fas fa-plus-circle me-1"></i> Add New Sales
-                        </button>
-                    </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-4 col-lg-auto mt-1 ">
+                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalAddSales">
+                        Add New Sales
+                    </button>
                 </div>
-                <x-action-button-header :show-export="true" />
             </div>
         </div>
         <div class="card-body">
@@ -143,63 +140,6 @@
             </div>
         </div>
     </div>
-
-    <form id="addFilterForm" action="" method="post" autocomplete="off" onkeydown="return event.key != 'Enter'">
-        <div class="modal fade" id="modalFilter" tabindex="-1" role="dialog" aria-labelledby="modalFilterLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
-                <div class="modal-content">
-                    <div class="modal-header"
-                        style="background-color: #222149; color: white; border-bottom: 1px solid #dee2e6;">
-                        <h5 class="modal-title" id="modalFilterLabel">Filter</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
-                            style="color: white; font-size: 1.5rem; border: none; background: transparent;">
-                            &times;
-                        </button>
-                    </div>
-
-                    <div class="modal-body" style="background-color: #f8f9fa; color: #212529;">
-
-                        <fieldset class="border p-3 mb-2">
-                            <legend class="float-none w-auto px-2 fw-bold text-danger" style="font-size: 12px;">Click the
-                                filter button to start searching. If you want to
-                                reset the filter, please click the reset button.</legend>
-                            </legend>
-                            <div class="row">
-
-                                <x-adminlte-input id="f_sales_mstr_nbr" name="f_sales_mstr_nbr" label="Sales Number"
-                                    placeholder="Search by Sales Number" fgroup-class="col-md-6" />
-
-                                <x-adminlte-input id="f_sales_mstr_bill" name="f_sales_mstr_bill" label="Sales Bill To"
-                                    placeholder="Search by Sales Bill To" fgroup-class="col-md-6" />
-
-                                <x-adminlte-input id="f_sales_mstr_ship" name="f_sales_mstr_ship" label="Sales Ship To"
-                                    placeholder="Search by Sales Ship To" fgroup-class="col-md-6" />
-
-                            </div>
-                            <div class="flex-sb-m w-full p-t-15 p-b-20 d-flex align-items-center">
-                                <span class="form-check">
-                                    <label class="form-check-label" for="isExactMatch">
-                                        <input class="form-check-input me-2" type="checkbox" name="isExactMatch"
-                                            id="isExactMatch" value="0"
-                                            onchange="this.value = this.checked ? 1 : 0">
-                                        Exact Match
-                                    </label>
-                                </span>
-                            </div>
-                        </fieldset>
-
-                    </div>
-                    <div class="modal-footer"
-                        style="background-color: #f8f9fa; color: #212529; border-top: solid 1px #ece0ea;">
-
-                        <x-action-button-filter />
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
 @stop
 
 @push('styles')

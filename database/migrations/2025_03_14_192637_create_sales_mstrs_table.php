@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('sales_mstr', function (Blueprint $table) {
             $table->id('sales_mstr_id');
+            $table->uuid('sales_mstr_uuid')->unique()->nullable();;
             $table->string('sales_mstr_nbr', 20)->unique();
             $table->string('sales_mstr_bill')->nullable();
             $table->string('sales_mstr_ship')->nullable();
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->decimal('sales_mstr_total', 20, 2)->nullable();
             $table->bigInteger('sales_mstr_cb')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

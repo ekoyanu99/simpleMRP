@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('in_det', function (Blueprint $table) {
             $table->id('in_det_id');
+            $table->uuid('in_det_uuid')->unique()->nullable();;
             $table->unsignedBigInteger('in_det_mstr');
             $table->string('in_det_loc');
             $table->string('in_det_item');
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->decimal('in_det_subtotal', 20, 2)->nullable();
             $table->string('in_det_status')->nullable();
             $table->bigInteger('in_det_cb')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

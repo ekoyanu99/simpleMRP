@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,8 +20,17 @@ class SalesMstr extends Model
         'sales_mstr_due_date',
         'sales_mstr_status',
         'sales_mstr_total',
-        'sales_mstr_cb'
+        'sales_mstr_cb',
+        'sales_mstr_uuid',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->sales_mstr_uuid = Str::uuid(); // Auto-generate
+        });
+    }
 
     public function salesDet()
     {

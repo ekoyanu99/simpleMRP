@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('mrp_det', function (Blueprint $table) {
             $table->id('mrp_det_id');
+            $table->uuid('mrp_det_uuid')->unique()->nullable();;
             $table->unsignedBigInteger('mrp_det_mstr')->nullable(false);
             $table->bigInteger('mrp_det_item');
             $table->string('mrp_det_sales', 100)->nullable();
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->bigInteger('mrp_det_cb')->nullable();
             // $table->foreign('mrp_det_mstr')->references('mrp_mstr_id')->on('mrp_mstr')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

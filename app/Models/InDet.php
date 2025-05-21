@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,7 +24,8 @@ class InDet extends Model
         'in_det_price',
         'in_det_subtotal',
         'in_det_status',
-        'in_det_cb'
+        'in_det_cb',
+        'in_det_uuid',
     ];
 
     public function itemMstr()

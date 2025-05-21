@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,11 +19,20 @@ class MrpMstr extends Model
         'mrp_mstr_saldo',
         'mrp_mstr_summary',
         'mrp_mstr_proceded',
-        'mrp_mstr_cb'
+        'mrp_mstr_cb',
+        'mrp_mstr_uuid',
     ];
     protected $casts = [
         'mrp_mstr_proceded' => 'boolean'
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->mrp_mstr_uuid = Str::uuid(); // Auto-generate
+        });
+    }
 
     // 
     public function itemMstr()

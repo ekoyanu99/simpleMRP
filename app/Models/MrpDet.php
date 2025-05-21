@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,6 +23,15 @@ class MrpDet extends Model
         'mrp_det_mr',
         'mrp_det_status',
         'mrp_det_remarks',
-        'mrp_det_cb'
+        'mrp_det_cb',
+        'mrp_det_uuid',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->mrp_det_uuid = Str::uuid(); // Auto-generate
+        });
+    }
 }

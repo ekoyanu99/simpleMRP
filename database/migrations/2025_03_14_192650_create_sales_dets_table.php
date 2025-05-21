@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('sales_det', function (Blueprint $table) {
             $table->id('sales_det_id');
+            $table->uuid('sales_det_uuid')->unique()->nullable();;
             $table->unsignedBigInteger('sales_det_mstr');
             $table->date('sales_det_date')->nullable();
             $table->date('sales_det_duedate')->nullable();
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->foreign('sales_det_mstr')->references('sales_mstr_id')->on('sales_mstr')->onDelete('cascade');
             $table->bigInteger('sales_det_cb')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

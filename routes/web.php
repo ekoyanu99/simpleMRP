@@ -6,11 +6,14 @@ use App\Http\Controllers\ItemMstrController;
 use App\Http\Controllers\MrpDetController;
 use App\Http\Controllers\MrpMstrController;
 use App\Http\Controllers\OdmMstrController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PoDetController;
 use App\Http\Controllers\PoMstrController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SalesDetController;
 use App\Http\Controllers\SalesMstrController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -74,6 +77,26 @@ Route::middleware('auth')->group(function () {
     Route::resource('InDets', InDetController::class);
     Route::get('/InDet/json', [InDetController::class, 'data'])->name('InDet.data');
     Route::get('InDet/{inDetId}/delete', [InDetController::class, 'destroy']);
+
+    // role mstr
+    Route::resource('RoleMstrs', RoleController::class);
+    Route::get('RoleMstrList', [RoleController::class, 'index'])->name('RoleMstrList');
+    Route::get('/RoleMstrList/data', [RoleController::class, 'data'])->name('RoleMstr.data');
+    Route::get('RoleMstr/{roleId}/delete', [RoleController::class, 'destroy']);
+    Route::get('RoleMstr/{roleId}/give-permission', [RoleController::class, 'addPermissionToRole']);
+    Route::put('RoleMstr/{roleId}/give-permission', [RoleController::class, 'givePermissionToRole']);
+
+    // permission mstr
+    Route::resource('PermissionMstrs', PermissionController::class);
+    Route::get('PermissionMstrList', [PermissionController::class, 'index'])->name('PermissionMstrList');
+    Route::get('/PermissionMstrList/data', [PermissionController::class, 'data'])->name('PermissionMstr.data');
+    Route::get('PermissionMstr/{permissionId}/delete', [PermissionController::class, 'destroy']);
+
+    // User Master
+    Route::resource('UserMstrs', UserController::class);
+    Route::get('/UserMstrList', [UserController::class, 'index'])->name('UserMstrList');
+    Route::get('/UserMstrList/data', [UserController::class, 'data'])->name('UserMstr.data');
+    Route::get('UserMstr/{userId}/delete', [UserController::class, 'destroy']);
 });
 
 require __DIR__ . '/auth.php';

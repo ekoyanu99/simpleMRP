@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('bom_mstr', function (Blueprint $table) {
             $table->id('bom_mstr_id');
+            $table->uuid('bom_mstr_uuid')->unique()->nullable();;
             $table->integer('bom_mstr_parent');
             $table->integer('bom_mstr_child');
             $table->decimal('bom_mstr_qtyper', 18, 2);
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->string('bom_mstr_remark');
             $table->bigInteger('bom_mstr_cb');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

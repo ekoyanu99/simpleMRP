@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('odm_mstr_status')->nullable();
             $table->bigInteger('odm_mstr_cb')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('mrp_mstr', function (Blueprint $table) {
             $table->id('mrp_mstr_id');
+            $table->uuid('mrp_mstr_uuid')->unique()->nullable();;
             $table->string('mrp_mstr_item');
             $table->decimal('mrp_mstr_qtyreq', 18, 2)->nullable();
             $table->decimal('mrp_mstr_saldo', 18, 2)->nullable();
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->boolean('mrp_mstr_proceded')->default(false);
             $table->bigInteger('mrp_mstr_cb')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,8 +20,17 @@ class PoMstr extends Model
         'po_mstr_arrival_date',
         'po_mstr_status',
         'po_mstr_remarks',
-        'po_mstr_cb'
+        'po_mstr_cb',
+        'po_mstr_uuid',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->po_mstr_uuid = Str::uuid(); // Auto-generate
+        });
+    }
 
     // public function vendor()
     // {

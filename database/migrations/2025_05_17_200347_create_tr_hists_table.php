@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('tr_hist', function (Blueprint $table) {
             $table->id('tr_id');
+            $table->uuid('tr_uuid')->unique()->nullable();;
             $table->string('tr_item');
             $table->date('tr_effdate');
             $table->string('tr_type');
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->string('tr_rmks')->nullable();
             $table->date('tr_shipdate')->nullable();
             $table->bigInteger('tr_cb')->nullable();
+            $table->softDeletes();
         });
     }
 
