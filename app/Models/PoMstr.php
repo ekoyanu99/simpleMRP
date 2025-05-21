@@ -32,4 +32,39 @@ class PoMstr extends Model
     {
         return $this->hasMany(PoDet::class, 'pod_det_mstr', 'po_mstr_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'po_mstr_cb', 'id');
+    }
+
+    public function scopesearchFilter($query, $field, $value, $exactMatch = false)
+    {
+        if (!empty($value)) {
+            if ($exactMatch) {
+                return $query->where($field, '=', $value);
+            } else {
+                return $query->where($field, 'LIKE', '%' . $value . '%');
+            }
+        }
+        return $query;
+    }
+
+    public function scopeFilter($query, $request)
+    {
+        session([
+            'PoMstrList_Filter.f_po_mstr_nbr' => $request->input('f_po_mstr_nbr'),
+            'PoMstrList_Filter.f_po_mstr_vd' => $request->input('f_po_mstr_vd'),
+            'PoMstrList_Filter.isExactMatch' => $request->input('isExactMatch'),
+        ]);
+
+        if ($request->filled('f_po_mstr_nbr')) {
+            $query->searchFilter('po_mstr_nbr', $request->input('f_po_mstr_nbr'), $request->input('isExactMatch'));
+        }
+        if ($request->filled('f_po_mstr_vd')) {
+            $query->searchFilter('po_mstr_vd', $request->input('f_po_mstr_vd'), $request->input('isExactMatch'));
+        }
+
+        return $query;
+    }
 }

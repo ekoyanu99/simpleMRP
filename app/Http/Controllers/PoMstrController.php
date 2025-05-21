@@ -28,13 +28,22 @@ class PoMstrController extends Controller
             abort(403, 'Unauthorized action');
         }
 
-        $q = PoMstr::query();
+        $q = PoMstr::with('user')->filter($request);
 
         return DataTables::of($q)
             ->addIndexColumn()
             ->addColumn('action', 'po.datatable')
             ->addColumn('updated_at', function ($po_mstr) {
                 return $po_mstr->updated_at->diffForHumans();
+            })
+            ->editColumn('po_mstr_date', function ($po_mstr) {
+                return $po_mstr->po_mstr_date ? formatDateIndo($po_mstr->po_mstr_date) : '';
+            })
+            ->editColumn('po_mstr_delivery_date', function ($po_mstr) {
+                return $po_mstr->po_mstr_delivery_date ? formatDateIndo($po_mstr->po_mstr_delivery_date) : '';
+            })
+            ->editColumn('po_mstr_arrival_date', function ($po_mstr) {
+                return $po_mstr->po_mstr_arrival_date ? formatDateIndo($po_mstr->po_mstr_arrival_date) : '';
             })
             ->rawColumns(['action'])
             ->make(true);

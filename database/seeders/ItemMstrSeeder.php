@@ -21,8 +21,12 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'SUP',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'ml',
+                'item_spec' =>  [
+                    'color' => 'red',
+                    'solubility' => 'water',
+                ],
             ],
             [
                 'item_name' => 'PA0002',
@@ -31,8 +35,12 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'SUP',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'ml',
+                'item_spec' => [
+                    'color' => 'blue',
+                    'solubility' => 'oil',
+                ],
             ],
             [
                 'item_name' => 'SK0001',
@@ -41,7 +49,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'SUP',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'kg',
             ],
             [
@@ -51,7 +59,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'SUP',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'l',
             ],
             [
@@ -61,7 +69,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'SUP',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'l',
             ],
             [
@@ -71,7 +79,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'SUP',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'unit',
             ],
             [
@@ -81,7 +89,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'WIP',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'ml',
             ],
             [
@@ -91,7 +99,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'WIP',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'l',
             ],
             [
@@ -101,7 +109,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'FG',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'l',
             ],
             [
@@ -111,7 +119,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'FG',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'l',
             ],
             [
@@ -121,7 +129,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'WIP',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'l',
             ],
             // Level 4 - Bahan Baku Paling Dasar
@@ -132,7 +140,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'RAW',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'kg',
             ],
             [
@@ -142,7 +150,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'RAW',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'l',
             ],
             [
@@ -152,7 +160,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'RAW',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'ml',
             ],
             [
@@ -162,7 +170,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'RAW',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'ml',
             ],
             [
@@ -172,7 +180,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'RAW',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'kg',
             ],
 
@@ -184,7 +192,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'WIP',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'kg',
             ],
             [
@@ -194,7 +202,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'WIP',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'kg',
             ],
             [
@@ -204,7 +212,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'WIP',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'ml',
             ],
 
@@ -216,7 +224,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'WIP',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'kg',
             ],
             [
@@ -226,7 +234,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'WIP',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'kg',
             ],
 
@@ -238,7 +246,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'FG',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'unit',
             ],
             [
@@ -248,7 +256,7 @@ class ItemMstrSeeder extends Seeder
                 'item_prod_line' => 'FG',
                 'item_rjrate' => '0',
                 'item_status' => 1,
-                'item_mstr_cb' => 1,
+                'item_cb' => 1,
                 'item_uom' => 'unit',
             ],
 

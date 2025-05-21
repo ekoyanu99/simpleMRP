@@ -32,7 +32,7 @@
                 <table class="table table-bordered table-striped table-hover" id="itemmstrlistTable">
                     <thead>
                         <tr>
-                            <th>Item Code</th>
+                            <th>No</th>
                             <th>Item Name</th>
                             <th>Description</th>
                             <th>PM Code</th>
@@ -86,7 +86,8 @@
                                 <label for="item_pmcode" class="form-label">
                                     Purchase or Manufacture
                                 </label>
-                                <x-adminlte-select2 name="item_pmcode" id="item_pmcode">
+                                <x-adminlte-select2 name="item_pmcode" id="item_pmcode"
+                                    data-dropdown-parent="#modalAddItem">
                                     <option value="P">Purchase</option>
                                     <option value="M">Manufacture</option>
                                 </x-adminlte-select2>
@@ -96,7 +97,8 @@
                                 <label for="item_prod_line" class="form-label">
                                     Production Line
                                 </label>
-                                <x-adminlte-select2 name="item_prod_line" id="item_prod_line" required="">
+                                <x-adminlte-select2 name="item_prod_line" id="item_prod_line" required
+                                    data-dropdown-parent="#modalAddItem">
                                     <option value="">Select Production Line</option>
                                     <option value="SUP">Supporting Material</option>
                                     <option value="WIP">WIP</option>
@@ -117,13 +119,15 @@
                                 <label for="item_uom" class="form-label">
                                     Uom
                                 </label>
-                                <x-adminlte-select2 name="item_uom" id="item_uom" required="">
+                                <x-adminlte-select2 name="item_uom" id="item_uom" data-dropdown-parent="#modalAddItem"
+                                    required>
                                     <option value="">Select Satuan</option>
                                     <option value="gram">Gram</option>
                                     <option value="ml">Mililiter</option>
                                     <option value="pcs">Pieces</option>
                                 </x-adminlte-select2>
                             </div>
+
 
                         </div>
                     </div>

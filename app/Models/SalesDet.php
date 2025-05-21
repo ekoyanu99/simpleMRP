@@ -30,6 +30,6 @@ class SalesDet extends Model
 
     public function itemMstr()
     {
-        return $this->belongsTo(ItemMstr::class, 'sales_det_item', 'item_mstr_id');
+        return $this->belongsTo(ItemMstr::class, 'sales_det_item', 'item_id');
     }
 }

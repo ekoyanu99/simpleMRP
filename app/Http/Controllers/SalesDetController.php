@@ -187,7 +187,7 @@ class SalesDetController extends Controller
                                 item_mstr.item_rjrate as yield,
                                 item_mstr.item_uom as uom 
                                 FROM bom_mstr left JOIN item_mstr 
-                                ON bom_mstr.bom_mstr_child = item_mstr.item_mstr_id 
+                                ON bom_mstr.bom_mstr_child = item_mstr.item_id 
                                 WHERE bom_mstr.bom_mstr_parent = ? 
                                 AND item_status = 1", [$parent]);
 
@@ -216,7 +216,7 @@ class SalesDetController extends Controller
                                         item_mstr.item_rjrate as yield,
                                         item_mstr.item_uom as uom 
                                         FROM bom_mstr left JOIN item_mstr 
-                                        ON bom_mstr.bom_mstr_child = item_mstr.item_mstr_id 
+                                        ON bom_mstr.bom_mstr_child = item_mstr.item_id 
                                         WHERE bom_mstr.bom_mstr_parent = ? 
                                         AND item_status = 1", [$child]);
 
@@ -239,7 +239,7 @@ class SalesDetController extends Controller
                                                 item_mstr.item_rjrate as yield,
                                                 item_mstr.item_uom as uom 
                                                 FROM bom_mstr left JOIN item_mstr 
-                                                ON bom_mstr.bom_mstr_child = item_mstr.item_mstr_id 
+                                                ON bom_mstr.bom_mstr_child = item_mstr.item_id 
                                                 WHERE bom_mstr.bom_mstr_parent = ? 
                                                 AND item_status = 1", [$child]);
 
@@ -262,7 +262,7 @@ class SalesDetController extends Controller
                                                         item_mstr.item_rjrate as yield,
                                                         item_mstr.item_uom as uom 
                                                         FROM bom_mstr left JOIN item_mstr 
-                                                        ON bom_mstr.bom_mstr_child = item_mstr.item_mstr_id 
+                                                        ON bom_mstr.bom_mstr_child = item_mstr.item_id 
                                                         WHERE bom_mstr.bom_mstr_parent = ? 
                                                         AND item_status = 1", [$child]);
 
@@ -285,7 +285,7 @@ class SalesDetController extends Controller
                                                                 item_mstr.item_rjrate as yield,
                                                                 item_mstr.item_uom as uom 
                                                                 FROM bom_mstr left JOIN item_mstr 
-                                                                ON bom_mstr.bom_mstr_child = item_mstr.item_mstr_id 
+                                                                ON bom_mstr.bom_mstr_child = item_mstr.item_id 
                                                                 WHERE bom_mstr.bom_mstr_parent = ? 
                                                                 AND item_status = 1", [$child]);
 

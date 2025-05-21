@@ -14,7 +14,7 @@ use App\Http\Controllers\SalesMstrController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->middleware(['auth'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 

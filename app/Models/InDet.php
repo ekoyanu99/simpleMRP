@@ -28,6 +28,44 @@ class InDet extends Model
 
     public function itemMstr()
     {
-        return $this->belongsTo(ItemMstr::class, 'in_det_item', 'item_mstr_id');
+        return $this->belongsTo(ItemMstr::class, 'in_det_item', 'item_id');
+    }
+
+    public function scopesearchFilter($query, $field, $value, $exactMatch = false)
+    {
+        if (!empty($value)) {
+            if ($exactMatch) {
+                return $query->where($field, '=', $value);
+            } else {
+                return $query->where($field, 'LIKE', '%' . $value . '%');
+            }
+        }
+        return $query;
+    }
+
+    public function scopeFilter($query, $request)
+    {
+        session([
+            'InDetList_Filter.f_item_name' => $request->input('f_item_name'),
+            'InDetList_Filter.f_item_desc' => $request->input('f_item_desc'),
+            'InDetList_Filter.f_in_det_loc' => $request->input('f_in_det_loc'),
+            'InDetList_Filter.isExactMatch' => $request->input('isExactMatch'),
+        ]);
+
+        if ($request->filled('f_item_name')) {
+            $query->whereHas('itemMstr', function ($q) use ($request) {
+                $q->searchFilter('item_name', $request->input('f_item_name'), $request->input('isExactMatch'));
+            });
+        }
+        if ($request->filled('f_item_desc')) {
+            $query->whereHas('itemMstr', function ($q) use ($request) {
+                $q->searchFilter('item_desc', $request->input('f_item_desc'), $request->input('isExactMatch'));
+            });
+        }
+        if ($request->filled('f_in_det_loc')) {
+            $query->searchFilter('in_det_loc', $request->input('f_in_det_loc'), $request->input('isExactMatch'));
+        }
+
+        return $query;
     }
 }

@@ -200,7 +200,7 @@
                                     required onchange="getDesc()">
                                     <option value="">Select Item</option>
                                     @foreach ($items as $item)
-                                        <option value="{{ $item->item_mstr_id }}">{{ $item->item_name }}</option>
+                                        <option value="{{ $item->item_id }}">{{ $item->item_name }}</option>
                                     @endforeach
                                 </select>
                             </div>

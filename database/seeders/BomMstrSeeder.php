@@ -33,7 +33,7 @@ class BomMstrSeeder extends Seeder
             'ESS001',
             'ESS002',
             'CLY001'
-        ])->pluck('item_mstr_id', 'item_name');
+        ])->pluck('item_id', 'item_name');
 
         $datas = [
             // Level 1 - Sabun Mandi XYZ

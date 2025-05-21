@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    
     let detailRows = [];
 
     let table = $("#mrpmstrlistTable").DataTable({
@@ -12,6 +13,10 @@ $(document).ready(function () {
         ajax: {
             url: "/MrpMstr/json",
             data: function (d) {
+                d.f_item_name = $("#f_item_name").val();
+                d.f_item_desc = $("#f_item_desc").val();
+
+                d.isExactMatch = $("#isExactMatch").val();
             },
         },
         columns: [

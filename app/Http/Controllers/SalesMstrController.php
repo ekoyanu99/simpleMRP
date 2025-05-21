@@ -28,12 +28,9 @@ class SalesMstrController extends Controller
             abort(403, 'Unauthorized action');
         }
 
-        $q = SalesMstr::query()->with('user');
+        $q = SalesMstr::with('user')->filter($request);
 
-        $sales = $q->get();
-
-        // add column time to diffForHumans
-        return DataTables::of($sales)
+        return DataTables::of($q)
             ->addIndexColumn()
             ->addColumn('action', 'sales.datatable')
             ->addColumn('updated_at', function ($sales) {
@@ -45,7 +42,9 @@ class SalesMstrController extends Controller
             ->editColumn('sales_mstr_due_date', function ($sales) {
                 return $sales->sales_mstr_due_date ? formatWaktuHuman($sales->sales_mstr_due_date) : '';
             })
-
+            ->editColumn('sales_mstr_date', function ($sales) {
+                return $sales->sales_mstr_date ? formatDateIndo($sales->sales_mstr_date) : '';
+            })
             ->rawColumns(['action'])
             ->make(true);
     }

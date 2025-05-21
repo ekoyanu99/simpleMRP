@@ -19,5 +19,6 @@
 @stop
 
 @section('js')
+    <script src="{{ asset('js/index.js') }}"></script>
     @stack('scripts')
 @stop

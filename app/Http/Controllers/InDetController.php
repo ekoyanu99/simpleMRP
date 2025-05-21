@@ -28,7 +28,7 @@ class InDetController extends Controller
             abort(403, 'Unauthorized action');
         }
 
-        $q = InDet::query()->with('itemMstr');
+        $q = InDet::with('itemMstr')->filter($request);
 
         return DataTables::of($q)
             ->addIndexColumn()

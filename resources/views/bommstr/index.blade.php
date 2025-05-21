@@ -71,7 +71,7 @@
                                 <x-adminlte-select2 name="bom_mstr_parent" id="bom_mstr_parent" required="">
                                     <option value="">Select Parent Item</option>
                                     @foreach ($itemmstrs as $itemmstr)
-                                        <option value="{{ $itemmstr->item_mstr_id }}">{{ $itemmstr->item_name }}</option>
+                                        <option value="{{ $itemmstr->item_id }}">{{ $itemmstr->item_name }}</option>
                                     @endforeach
                                 </x-adminlte-select2>
                             </div>
@@ -85,7 +85,7 @@
                                 <x-adminlte-select2 name="bom_mstr_child" id="bom_mstr_child" required="">
                                     <option value="">Select Child Item</option>
                                     @foreach ($itemmstrs as $itemmstr)
-                                        <option value="{{ $itemmstr->item_mstr_id }}">{{ $itemmstr->item_name }}</option>
+                                        <option value="{{ $itemmstr->item_id }}">{{ $itemmstr->item_name }}</option>
                                     @endforeach
                                 </x-adminlte-select2>
 

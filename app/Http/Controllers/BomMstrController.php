@@ -38,9 +38,9 @@ class BomMstrController extends Controller
                 pt2.item_desc AS item_comp_desc,
                 pt2.item_uom AS item_comp_um,
                 ps.*')
-            ->leftJoin(DB::raw('item_mstr AS pt1'), 'ps.bom_mstr_parent', '=', 'pt1.item_mstr_id')
-            ->leftJoin(DB::raw('item_mstr AS pt2'), 'ps.bom_mstr_child', '=', 'pt2.item_mstr_id')
-            ->whereRaw('item_mstr.item_mstr_id = ps.bom_mstr_parent');
+            ->leftJoin(DB::raw('item_mstr AS pt1'), 'ps.bom_mstr_parent', '=', 'pt1.item_id')
+            ->leftJoin(DB::raw('item_mstr AS pt2'), 'ps.bom_mstr_child', '=', 'pt2.item_id')
+            ->whereRaw('item_mstr.item_id = ps.bom_mstr_parent');
 
         if ($request->filled('f_item_parent_name')) {
             $q->where('item_mstr.item_name', 'like', '%' . $request->input('f_item_parent_name') . '%');

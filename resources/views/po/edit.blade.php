@@ -62,6 +62,7 @@
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary"> <i class="fas fa-save"></i> </button>
+                        <a href="{{ url('PoMstrs') }}" class="btn btn-secondary"> <i class="fas fa-arrow-left"></i> </a>
                     </div>
                 </div>
 
@@ -196,13 +197,14 @@
                                     Item
                                 </label>
 
-                                <select name="pod_det_item" id="pod_det_item" class="form-control form-control-sm"
-                                    required onchange="getDesc()">
-                                    <option value="">Select Item</option>
+                                <x-adminlte-select2 name="pod_det_item" id="pod_det_item" onchange="getDesc()"
+                                    data-dropdown-parent="#modalAddPoDet">
+                                    <option value="">Select an item</option>
                                     @foreach ($items as $item)
-                                        <option value="{{ $item->item_mstr_id }}">{{ $item->item_name }}</option>
+                                        <option value="{{ $item->item_id }}">{{ $item->item_name }}</option>
                                     @endforeach
-                                </select>
+                                </x-adminlte-select2>
+
                             </div>
 
                             <div class="form-group col-md-6">

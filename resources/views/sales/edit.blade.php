@@ -209,13 +209,14 @@
                                     Item
                                 </label>
 
-                                <select name="sales_det_item" id="sales_det_item" class="form-control form-control-sm"
-                                    required onchange="getDesc()">
-                                    <option value="">Select Item</option>
+                                <x-adminlte-select2 name="sales_det_item" id="sales_det_item" onchange="getDesc()"
+                                    data-dropdown-parent="#modalAddSalesDet">
+                                    <option value="">Select an item</option>
                                     @foreach ($items as $item)
-                                        <option value="{{ $item->item_mstr_id }}">{{ $item->item_name }}</option>
+                                        <option value="{{ $item->item_id }}">{{ $item->item_name }}</option>
                                     @endforeach
-                                </select>
+                                </x-adminlte-select2>
+
                             </div>
 
                             <div class="form-group col-md-6">

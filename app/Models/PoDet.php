@@ -31,6 +31,6 @@ class PoDet extends Model
 
     public function itemMstr()
     {
-        return $this->belongsTo(ItemMstr::class, 'pod_det_item', 'item_mstr_id');
+        return $this->belongsTo(ItemMstr::class, 'pod_det_item', 'item_id');
     }
 }

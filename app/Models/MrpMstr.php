@@ -27,11 +27,45 @@ class MrpMstr extends Model
     // 
     public function itemMstr()
     {
-        return $this->belongsTo(ItemMstr::class, 'mrp_mstr_item', 'item_mstr_id');
+        return $this->belongsTo(ItemMstr::class, 'mrp_mstr_item', 'item_id');
     }
 
     public function mrpDet()
     {
         return $this->hasMany(MrpDet::class, 'mrp_det_mstr', 'mrp_mstr_id');
+    }
+
+    public function scopesearchFilter($query, $field, $value, $exactMatch = false)
+    {
+        if (!empty($value)) {
+            if ($exactMatch) {
+                return $query->where($field, '=', $value);
+            } else {
+                return $query->where($field, 'LIKE', '%' . $value . '%');
+            }
+        }
+        return $query;
+    }
+
+    public function scopeFilter($query, $request)
+    {
+        session([
+            'MrpMstrList_Filter.f_item_name' => $request->input('f_item_name'),
+            'MrpMstrList_Filter.f_item_desc' => $request->input('f_item_desc'),
+            'MrpMstrList_Filter.isExactMatch' => $request->input('isExactMatch'),
+        ]);
+
+        if ($request->filled('f_item_name')) {
+            $query->whereHas('itemMstr', function ($q) use ($request) {
+                $q->searchFilter('item_name', $request->input('f_item_name'), $request->input('isExactMatch'));
+            });
+        }
+        if ($request->filled('f_item_desc')) {
+            $query->whereHas('itemMstr', function ($q) use ($request) {
+                $q->searchFilter('item_desc', $request->input('f_item_desc'), $request->input('isExactMatch'));
+            });
+        }
+
+        return $query;
     }
 }

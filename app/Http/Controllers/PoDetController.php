@@ -37,7 +37,7 @@ class PoDetController extends Controller
             $id = Auth::user()->id;
 
             $total = $request->pod_det_qty * $request->pod_det_price;
-            $uom = DB::table('item_mstr')->where('item_mstr_id', $request->pod_det_item)->value('item_uom');
+            $uom = DB::table('item_mstr')->where('item_id', $request->pod_det_item)->value('item_uom');
 
             $poDet = PoDet::create([
                 'pod_det_mstr' => $request->pod_det_mstr,

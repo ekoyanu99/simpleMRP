@@ -28,11 +28,9 @@ class MrpMstrController extends Controller
             abort(403, 'Unauthorized action');
         }
 
-        $q = MrpMstr::with('itemMstr');
+        $q = MrpMstr::with('itemMstr')->filter($request);
 
-        $mrp_mstr = $q->get();
-
-        return DataTables::of($mrp_mstr)
+        return DataTables::of($q)
             ->editColumn('mrp_mstr_item', function ($mrp_mstr) {
                 return $mrp_mstr->itemMstr->item_name;
             })
@@ -118,25 +116,25 @@ class MrpMstrController extends Controller
 
         // Get all parent items that have child items with PM code 'P'
         $parentItems = DB::table('odm_mstr')
-            ->join('item_mstr', 'item_mstr.item_mstr_id', '=', 'odm_mstr.odm_mstr_child')
+            ->join('item_mstr', 'item_mstr.item_id', '=', 'odm_mstr.odm_mstr_child')
             ->where('item_pmcode', 'P')
-            ->groupBy('item_mstr.item_mstr_id')
-            ->select('item_mstr.item_mstr_id')
+            ->groupBy('item_mstr.item_id')
+            ->select('item_mstr.item_id')
             ->get();
 
         foreach ($parentItems as $item) {
             $outstandingPo = DB::table('po_det')
-                ->where('pod_det_item', $item->item_mstr_id)
+                ->where('pod_det_item', $item->item_id)
                 ->sum(DB::raw('pod_det_qty'));
 
             // Calculate current stock
             $currentStock = DB::table('in_det')
-                ->where('in_det_item', $item->item_mstr_id)
+                ->where('in_det_item', $item->item_id)
                 ->sum('in_det_qty');
 
             // Calculate total demand for this item
             $totalDemand = DB::table('odm_mstr')
-                ->where('odm_mstr_child', $item->item_mstr_id)
+                ->where('odm_mstr_child', $item->item_id)
                 ->sum(DB::raw('CAST(odm_mstr_req AS FLOAT)'));
 
             // Calculate MR (Material Requirement) - initial calculation
@@ -144,7 +142,7 @@ class MrpMstrController extends Controller
 
             // Create MRP header
             $mrpHeader = MrpMstr::create([
-                'mrp_mstr_item' => $item->item_mstr_id,
+                'mrp_mstr_item' => $item->item_id,
                 'mrp_mstr_qtyreq' => $totalDemand,
                 'mrp_mstr_outstanding' => $outstandingPo,
                 'mrp_mstr_saldo' => $currentStock,
@@ -156,7 +154,7 @@ class MrpMstrController extends Controller
             // Get all demand details for this item
             $demands = DB::table('odm_mstr')
                 ->join('sales_det', 'sales_det.sales_det_id', '=', 'odm_mstr.odm_mstr_sodid')
-                ->where('odm_mstr_child', $item->item_mstr_id)
+                ->where('odm_mstr_child', $item->item_id)
                 ->select(
                     'odm_mstr.odm_mstr_nbr as sales_order',
                     'sales_det.sales_det_duedate as due_date',
@@ -212,7 +210,7 @@ class MrpMstrController extends Controller
                 // Create MRP detail
                 MrpDet::create([
                     'mrp_det_mstr' => $mrpHeader->mrp_mstr_id,
-                    'mrp_det_item' => $item->item_mstr_id,
+                    'mrp_det_item' => $item->item_id,
                     'mrp_det_sales' => $demand->sales_order,
                     'mrp_det_date' => $demand->due_date,
                     'mrp_det_qtyreq' => $kebutuhan,
