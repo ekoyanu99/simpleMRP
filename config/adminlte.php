@@ -113,8 +113,8 @@ return [
         'enabled' => true,
         'mode' => 'fullscreen',
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'AdminLTE Preloader Image',
+            'path' => 'images/logo/simplemrp.png',
+            'alt' => 'Preloader Image',
             'effect' => 'animation__shake',
             'width' => 60,
             'height' => 60,
@@ -323,6 +323,11 @@ return [
             'url' => 'BomMstrs',
             'icon' => 'fas fa-fw fa-list-alt',
         ],
+        [
+            'text' => 'Kalkulator BOM',
+            'url' => 'BomMstr/calculator',
+            'icon' => 'fas fa-fw fa-calculator',
+        ],
 
         // ==================== SALES ====================
         ['header' => 'SALES'],
@@ -343,7 +348,7 @@ return [
         // ==================== PPIC ====================
         ['header' => 'PPIC'],
         [
-            'text' => 'Material Requisition',
+            'text' => 'MRP',
             'url' => 'MrpMstrs',
             'icon' => 'fas fa-fw fa-clipboard-check',
         ],

@@ -35,6 +35,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('BomMstrs', BomMstrController::class);
     Route::get('/BomMstr/json', [BomMstrController::class, 'data'])->name('BomMstr.data');
     Route::get('BomMstr/{bomMstrId}/delete', [BomMstrController::class, 'destroy']);
+
+    // Bom Calculator
+    Route::get('/BomMstr/calculator', [BomMstrController::class, 'showCalculatorForm'])->name('BomMstr.calculator');
+    Route::post('/BomMstr/calculate', [BomMstrController::class, 'calculateBom'])->name('BomMstr.calculate');
+
     // OdmMstr
     Route::resource('OdmMstrs', OdmMstrController::class);
     Route::get('/OdmMstr/json', [OdmMstrController::class, 'data'])->name('OdmMstr.data');

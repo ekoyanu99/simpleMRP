@@ -132,7 +132,7 @@ class SalesDetController extends Controller
         }
     }
 
-    public function rowInserted($idSo, $idSod)
+    public function rowInsertedV1($idSo, $idSod)
     {
         $sql = "SELECT sales_mstr_nbr as nbr FROM sales_mstr WHERE sales_mstr_id = ?";
         $row = DB::selectOne($sql, [$idSo]);
@@ -189,7 +189,7 @@ class SalesDetController extends Controller
                                 FROM bom_mstr left JOIN item_mstr 
                                 ON bom_mstr.bom_mstr_child = item_mstr.item_id 
                                 WHERE bom_mstr.bom_mstr_parent = ? 
-                                AND item_status = 1", [$parent]);
+                                AND item_status = 'true'", [$parent]);
 
 
         // dd($data1);
@@ -207,7 +207,7 @@ class SalesDetController extends Controller
                 $lvl = "LVL1";
 
                 $insOdm = DB::insert("INSERT INTO odm_mstr (odm_mstr_nbr, odm_mstr_sodid, odm_mstr_parent, odm_mstr_child, odm_mstr_rjrate, odm_mstr_childuom, odm_mstr_req, odm_mstr_level, odm_mstr_fg, odm_mstr_fguom, odm_mstr_qtyorder, odm_mstr_cb, created_at, updated_at) 
-                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, getdate(), getdate())", [$nbr, $idSod, $parent, $child, $yield, $uom, $qty, $lvl, $fgId, $fg_um, $qtyReq, $createBy]);
+                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now(), now())", [$nbr, $idSod, $parent, $child, $yield, $uom, $qty, $lvl, $fgId, $fg_um, $qtyReq, $createBy]);
 
                 // level2
                 $data2 = DB::select("SELECT bom_mstr.* , 
@@ -218,7 +218,7 @@ class SalesDetController extends Controller
                                         FROM bom_mstr left JOIN item_mstr 
                                         ON bom_mstr.bom_mstr_child = item_mstr.item_id 
                                         WHERE bom_mstr.bom_mstr_parent = ? 
-                                        AND item_status = 1", [$child]);
+                                        AND item_status = 'true'", [$child]);
 
                 if (!empty($data2)) {
                     for ($j = 0; $j < count($data2); $j++) {
@@ -230,7 +230,7 @@ class SalesDetController extends Controller
                         $lvl = "LVL2";
 
                         $insOdm = DB::insert("INSERT INTO odm_mstr (odm_mstr_nbr, odm_mstr_sodid, odm_mstr_parent, odm_mstr_child, odm_mstr_rjrate, odm_mstr_childuom, odm_mstr_req, odm_mstr_level, odm_mstr_fg, odm_mstr_fguom, odm_mstr_qtyorder, odm_mstr_cb, created_at, updated_at) 
-                                                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, getdate(), getdate())", [$nbr, $idSod, $parent, $child, $yield, $uom, $qty, $lvl, $fgId, $fg_um, $qtyReq, $createBy]);
+                                                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now(), now())", [$nbr, $idSod, $parent, $child, $yield, $uom, $qty, $lvl, $fgId, $fg_um, $qtyReq, $createBy]);
 
                         // level3
                         $data3 = DB::select("SELECT bom_mstr.* , 
@@ -241,7 +241,7 @@ class SalesDetController extends Controller
                                                 FROM bom_mstr left JOIN item_mstr 
                                                 ON bom_mstr.bom_mstr_child = item_mstr.item_id 
                                                 WHERE bom_mstr.bom_mstr_parent = ? 
-                                                AND item_status = 1", [$child]);
+                                                AND item_status = 'true'", [$child]);
 
                         if (!empty($data3)) {
                             for ($k = 0; $k < count($data3); $k++) {
@@ -253,7 +253,7 @@ class SalesDetController extends Controller
                                 $lvl = "LVL3";
 
                                 $insOdm = DB::insert("INSERT INTO odm_mstr (odm_mstr_nbr, odm_mstr_sodid, odm_mstr_parent, odm_mstr_child, odm_mstr_rjrate, odm_mstr_childuom, odm_mstr_req, odm_mstr_level, odm_mstr_fg, odm_mstr_fguom, odm_mstr_qtyorder, odm_mstr_cb, created_at, updated_at) 
-                                                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, getdate(), getdate())", [$nbr, $idSod, $parent, $child, $yield, $uom, $qty, $lvl, $fgId, $fg_um, $qtyReq, $createBy]);
+                                                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now(), now())", [$nbr, $idSod, $parent, $child, $yield, $uom, $qty, $lvl, $fgId, $fg_um, $qtyReq, $createBy]);
 
                                 // level4
                                 $data4 = DB::select("SELECT bom_mstr.* , 
@@ -264,7 +264,7 @@ class SalesDetController extends Controller
                                                         FROM bom_mstr left JOIN item_mstr 
                                                         ON bom_mstr.bom_mstr_child = item_mstr.item_id 
                                                         WHERE bom_mstr.bom_mstr_parent = ? 
-                                                        AND item_status = 1", [$child]);
+                                                        AND item_status = 'true'", [$child]);
 
                                 if (!empty($data4)) {
                                     for ($l = 0; $l < count($data4); $l++) {
@@ -276,7 +276,7 @@ class SalesDetController extends Controller
                                         $lvl = "LVL4";
 
                                         $insOdm = DB::insert("INSERT INTO odm_mstr (odm_mstr_nbr, odm_mstr_sodid, odm_mstr_parent, odm_mstr_child, odm_mstr_rjrate, odm_mstr_childuom, odm_mstr_req, odm_mstr_level, odm_mstr_fg, odm_mstr_fguom, odm_mstr_qtyorder, odm_mstr_cb, created_at, updated_at) 
-                                                                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, getdate(), getdate())", [$nbr, $idSod, $parent, $child, $yield, $uom, $qty, $lvl, $fgId, $fg_um, $qtyReq, $createBy]);
+                                                                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now(), now())", [$nbr, $idSod, $parent, $child, $yield, $uom, $qty, $lvl, $fgId, $fg_um, $qtyReq, $createBy]);
 
                                         // level5
                                         $data5 = DB::select("SELECT bom_mstr.* , 
@@ -287,7 +287,7 @@ class SalesDetController extends Controller
                                                                 FROM bom_mstr left JOIN item_mstr 
                                                                 ON bom_mstr.bom_mstr_child = item_mstr.item_id 
                                                                 WHERE bom_mstr.bom_mstr_parent = ? 
-                                                                AND item_status = 1", [$child]);
+                                                                AND item_status = 'true'", [$child]);
 
                                         if (!empty($data5)) {
                                             for ($m = 0; $m < count($data5); $m++) {
@@ -299,7 +299,7 @@ class SalesDetController extends Controller
                                                 $lvl = "LVL5";
 
                                                 $insOdm = DB::insert("INSERT INTO odm_mstr (odm_mstr_nbr, odm_mstr_sodid, odm_mstr_parent, odm_mstr_child, odm_mstr_rjrate, odm_mstr_childuom, odm_mstr_req, odm_mstr_level, odm_mstr_fg, odm_mstr_fguom, odm_mstr_qtyorder, odm_mstr_cb, created_at, updated_at) 
-                                                                                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, getdate(), getdate())", [$nbr, $idSod, $parent, $child, $yield, $uom, $qty, $lvl, $fgId, $fg_um, $qtyReq, $createBy]);
+                                                                                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now(), now())", [$nbr, $idSod, $parent, $child, $yield, $uom, $qty, $lvl, $fgId, $fg_um, $qtyReq, $createBy]);
                                             }
                                         }
                                     }
@@ -319,7 +319,130 @@ class SalesDetController extends Controller
             $lvl = "LVL1";
 
             $insOdm = DB::insert("INSERT INTO odm_mstr (odm_mstr_nbr, odm_mstr_sodid, odm_mstr_parent, odm_mstr_child, odm_mstr_rjrate, odm_mstr_childuom, odm_mstr_req, odm_mstr_level, odm_mstr_fg, odm_mstr_fguom, odm_mstr_qtyorder, odm_mstr_cb, created_at, updated_at) 
-                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, getdate(), getdate())", [$nbr, $idSod, $parent, $child, $yield, $uom, $qty, $lvl, $fgId, $fg_um, $qtyReq, $createBy]);
+                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now(), now())", [$nbr, $idSod, $parent, $child, $yield, $uom, $qty, $lvl, $fgId, $fg_um, $qtyReq, $createBy]);
+        }
+
+        return $updated > 0;
+    }
+
+    public function rowInserted($idSo, $idSod)
+    {
+        $sql = "SELECT sales_mstr_nbr as nbr FROM sales_mstr WHERE sales_mstr_id = ?";
+        $row = DB::selectOne($sql, [$idSo]);
+
+        $createBy = Auth::user()->id;
+
+        if (!$row) {
+            return false;
+        }
+
+        $nbr = $row->nbr;
+
+        $sql2 = "SELECT SUM(sales_det_total) as ttlSales FROM sales_det WHERE sales_det_mstr = ?";
+        $row2 = DB::selectOne($sql2, [$idSo]);
+
+        if (!$row2) {
+            return false;
+        }
+
+        $ttlSales = $row2->ttlSales ?? 0;
+        $updated = DB::update("UPDATE sales_mstr SET sales_mstr_total = ? WHERE sales_mstr_id = ?", [$ttlSales, $idSo]);
+
+        $sod = SalesDet::findOrFail($idSod);
+        $idSod = $sod->sales_det_id;
+        $fgId = $sod->sales_det_item;
+        $parent = $sod->sales_det_item;
+        $qtyReq = $sod->sales_det_qty;
+
+        $data = ItemMstr::findOrFail($parent);
+        if (!empty($data)) {
+            $fg_um = $data->item_uom;
+        }
+
+        $cek = DB::select("SELECT * FROM odm_mstr WHERE odm_mstr_nbr = ? AND odm_mstr_sodid = ?", [$nbr, $idSod]);
+        if ($cek) {
+            $delOdm = DB::delete("DELETE FROM odm_mstr WHERE odm_mstr_nbr = ? AND odm_mstr_sodid = ?", [$nbr, $idSod]);
+        }
+
+        $bomData = DB::select("SELECT bom_mstr.*,
+                          item_mstr.item_name as name,
+                          item_mstr.item_desc as desc1,
+                          item_mstr.item_rjrate as yield,
+                          item_mstr.item_uom as uom
+                          FROM bom_mstr 
+                          LEFT JOIN item_mstr ON bom_mstr.bom_mstr_child = item_mstr.item_id
+                          WHERE bom_mstr.bom_mstr_parent = ?
+                          AND item_status = 'true'", [$parent]);
+
+        if (!empty($bomData)) {
+            $currentLevel = 1;
+            $currentParents = [$parent];
+            $currentQtyFactors = [1];
+
+            while ($currentLevel <= 18 && !empty($currentParents)) {
+                $nextParents = [];
+                $nextQtyFactors = [];
+
+                foreach ($currentParents as $index => $currentParent) {
+                    $levelData = DB::select("SELECT bom_mstr.*,
+                                      item_mstr.item_rjrate as yield,
+                                      item_mstr.item_uom as uom
+                                      FROM bom_mstr
+                                      LEFT JOIN item_mstr ON bom_mstr.bom_mstr_child = item_mstr.item_id
+                                      WHERE bom_mstr.bom_mstr_parent = ?
+                                      AND item_status = 'true'", [$currentParent]);
+
+                    foreach ($levelData as $item) {
+                        $qty = $qtyReq * $currentQtyFactors[$index] * $item->bom_mstr_qtyper;
+                        $lvl = "LVL" . $currentLevel;
+
+                        DB::insert("INSERT INTO odm_mstr (
+                        odm_mstr_nbr, odm_mstr_sodid, odm_mstr_parent, odm_mstr_child, 
+                        odm_mstr_rjrate, odm_mstr_childuom, odm_mstr_req, odm_mstr_level,
+                        odm_mstr_fg, odm_mstr_fguom, odm_mstr_qtyorder, odm_mstr_cb,
+                        created_at, updated_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now(), now())", [
+                            $nbr,
+                            $idSod,
+                            $currentParent,
+                            $item->bom_mstr_child,
+                            $item->yield,
+                            $item->uom,
+                            $qty,
+                            $lvl,
+                            $fgId,
+                            $fg_um,
+                            $qtyReq,
+                            $createBy
+                        ]);
+                        $nextParents[] = $item->bom_mstr_child;
+                        $nextQtyFactors[] = $currentQtyFactors[$index] * $item->bom_mstr_qtyper;
+                    }
+                }
+                $currentParents = $nextParents;
+                $currentQtyFactors = $nextQtyFactors;
+                $currentLevel++;
+            }
+        } else {
+            DB::insert("INSERT INTO odm_mstr (
+            odm_mstr_nbr, odm_mstr_sodid, odm_mstr_parent, odm_mstr_child,
+            odm_mstr_rjrate, odm_mstr_childuom, odm_mstr_req, odm_mstr_level,
+            odm_mstr_fg, odm_mstr_fguom, odm_mstr_qtyorder, odm_mstr_cb,
+            created_at, updated_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now(), now())", [
+                $nbr,
+                $idSod,
+                $fgId,
+                $fgId,
+                0,
+                $fg_um,
+                $qtyReq,
+                "LVL1",
+                $fgId,
+                $fg_um,
+                $qtyReq,
+                $createBy
+            ]);
         }
 
         return $updated > 0;

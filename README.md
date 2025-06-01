@@ -1,66 +1,57 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🏭 SimpleMRP: Manufacturing Resource Planning & Production Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
 
-## About Laravel
+## 💡 Gambaran Umum Project
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**SimpleMRP** adalah sebuah sistem manajemen terintegrasi yang dirancang untuk membantu UMKM atau bisnis dalam mengelola proses produksi, penjualan, dan pembelian secara efisien. Dengan fokus pada **perencanaan kebutuhan material (MRP)**, sistem ini memungkinkan Anda untuk melacak inventaris 📦, mengelola daftar material (BOM) 📋, mensimulasikan biaya produksi 💲, dan secara otomatis menghasilkan rekomendasi pembelian berdasarkan pesanan penjualan dan ketersediaan stok.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Dibangun dengan **Laravel** sebagai backend yang robust 🚀, sistem ini menggunakan **Laravel AdminLTE** untuk antarmuka pengguna yang modern dan **PostgreSQL** sebagai database yang andal. Pengelolaan hak akses yang fleksibel diimplementasikan dengan **Spatie Permission**, dan data disajikan secara interaktif menggunakan **Datatables AJAX** dengan server-side rendering untuk performa optimal.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ✨ Fitur Utama
 
-## Learning Laravel
+Sistem ini terbagi menjadi beberapa modul inti yang bekerja sama untuk mengoptimalkan operasional bisnis Anda:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### ⚙️ Modul Engineering
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+-   **Item Master**: Mengelola daftar lengkap item atau produk Anda, dikategorikan menjadi _Supporting_, _Work-in-Progress (WIP)_, dan _Finished Goods (FG)_.
+-   **Bill of Material (BOM)**: Membuat dan mengelola formula produksi (resep) yang bersifat multi-level untuk setiap item FG atau WIP.
+-   **BOM Calculator**: Melakukan simulasi perhitungan biaya dan kebutuhan material berdasarkan BOM yang sudah ada.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 💰 Modul Sales
 
-## Laravel Sponsors
+-   **Sales Order (SO)**: Mencatat pesanan penjualan dari pelanggan 🤝. Setiap entri Sales Order untuk Finished Goods akan secara otomatis memicu pembuatan _Order Detail Material Master (ODM MSTR)_ berdasarkan BOM yang relevan.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 🛒 Modul Purchasing
 
-### Premium Partners
+-   **Purchase Order (PO)**: Mengelola pesanan pembelian untuk bahan baku atau item lainnya.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 📊 Modul PPIC (Production Planning and Inventory Control)
 
-## Contributing
+-   **Material Requisition Planning (MRP)**: Ini adalah inti dari project ini. Modul MRP akan menganalisis Order Detail Material Master (ODM MSTR) yang berasal dari Sales Order. Berdasarkan analisis ini, sistem akan menghasilkan daftar rekomendasi bahan baku yang perlu dibeli, dengan mempertimbangkan stok yang tersedia dan Purchase Order (PO) yang masih outstanding. Ini menghasilkan saran Material Requisition (MR) untuk pembelian bahan baku.
+-   **Inventory Detail**: Melihat detail inventaris dan pergerakan stok.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 🔒 Config
 
-## Code of Conduct
+-   **User Access**: Mengelola pengguna, peran (roles), dan izin (permissions) untuk memastikan kontrol akses yang ketat dan fleksibel menggunakan Spatie Permission.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🔄 Alur Kerja Singkat
 
-## Security Vulnerabilities
+1.  **Item Master** & **Bill of Material (BOM)** diatur untuk mendefinisikan produk dan strukturnya.
+2.  **Sales Order** masuk untuk item _Finished Goods_ 🛒.
+3.  Sistem secara otomatis menghasilkan **Order Detail Material Master (ODM MSTR)** berdasarkan BOM dari Sales Order tersebut.
+4.  PPIC menjalankan **Material Requisition Planning (MRP)** 📈.
+5.  MRP menganalisis ODM MSTR, mengurangkan kebutuhan dengan stok yang tersedia (**Inventory Detail**) dan **Outstanding PO**.
+6.  Hasilnya adalah daftar sugesti **Material Requisition (MR)** yang menunjukkan bahan baku apa saja yang perlu dibeli untuk memenuhi Sales Order 📝.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 🛠️ Tech Stack
 
-## License
+-   **Backend**: Laravel Framework
+-   **Frontend**: Laravel AdminLTE (jeroennoten)
+-   **Database**: PostgreSQL
+-   **Authorization**: Spatie Permission
+-   **Data Table**: Datatables AJAX (Server-side rendering)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+Silakan hubungi saya jika Anda memiliki pertanyaan atau ingin berkontribusi! 👋

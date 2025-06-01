@@ -82,7 +82,7 @@ class ItemMstrController extends Controller
             'item_rjrate' => $request->item_rjrate,
             'item_status' => 1,
             'item_uom' => $request->item_uom,
-            'item_mstr_cb' => $id,
+            'item_cb' => $id,
         ]);
 
         return redirect('ItemMstrs')->with('status', 'Item created successfully');
@@ -121,7 +121,7 @@ class ItemMstrController extends Controller
 
         $data = [
             'item_desc' => $request->efid_Desc,
-            'item_mstr_cb' => $id,
+            'item_cb' => $id,
         ];
 
         $itemMstr->update($data);
