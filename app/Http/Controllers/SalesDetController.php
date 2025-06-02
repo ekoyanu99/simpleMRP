@@ -80,11 +80,12 @@ class SalesDetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSalesDetRequest $request, $id)
+    public function update(UpdateSalesDetRequest $request, $salesDetUuid)
     {
         //
-        $salesDet = SalesDet::findOrFail($id);
+        $salesDet = SalesDet::where('sales_det_uuid', $salesDetUuid)->firstOrFail();
         $id = Auth::user()->id;
+        // dd($salesDet);
 
         $total = $request->efid_Price * $request->efid_Qty;
 
@@ -112,10 +113,10 @@ class SalesDetController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($salesDetId)
+    public function destroy($salesDetUuid)
     {
         //
-        $salesDet = SalesDet::with('salesMstr')->findOrFail($salesDetId);
+        $salesDet = SalesDet::where('sales_det_uuid', $salesDetUuid)->with('salesMstr')->firstOrFail();
 
         // dd($salesDet);
 

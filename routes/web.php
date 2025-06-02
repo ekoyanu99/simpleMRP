@@ -59,13 +59,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/MrpDet/json', [MrpDetController::class, 'data'])->name('MrpDet.data');
     Route::get('MrpDet/{mrpDetId}/delete', [MrpDetController::class, 'destroy']);
     // SalesMstr
-    Route::resource('SalesMstrs', SalesMstrController::class);
+    Route::resource('SalesMstrs', SalesMstrController::class)->parameters(['SalesMstrs' => 'salesMstrUuid']);
     Route::get('/SalesMstr/json', [SalesMstrController::class, 'data'])->name('SalesMstr.data');
-    Route::get('SalesMstr/{salesMstrId}/delete', [SalesMstrController::class, 'destroy']);
+    Route::get('SalesMstr/{salesMstrUuid}/delete', [SalesMstrController::class, 'destroy']);
     // SalesDet
-    Route::resource('SalesDets', SalesDetController::class);
+    Route::resource('SalesDets', SalesDetController::class)->parameters(['SalesDets' => 'salesDetUuid']);
     Route::get('/SalesDet/json', [SalesDetController::class, 'data'])->name('SalesDet.data');
-    Route::get('SalesDet/{salesDetId}/delete', [SalesDetController::class, 'destroy']);
+    Route::get('SalesDet/{salesDetUuid}/delete', [SalesDetController::class, 'destroy']);
     // PoMstr
     Route::resource('PoMstrs', PoMstrController::class);
     Route::get('/PoMstr/json', [PoMstrController::class, 'data'])->name('PoMstr.data');
@@ -107,5 +107,3 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 
 Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
