@@ -156,12 +156,13 @@
         </div>
     </form>
 
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form id="editForm" method="POST">
-                    @csrf
-                    @method('PUT')
+    <form id="editForm" method="POST">
+        @csrf
+        @method('PUT')
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
                     <div class="modal-header">
                         <h5 class="modal-title" id="editModalLabel">Edit Sales Mastr</h5>
                         <button type="button" class="btn btn-sm btn-close" data-dismiss="modal"
@@ -180,10 +181,10 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary">Save Changes</button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 @stop
 
 @push('styles')

@@ -2,7 +2,13 @@
 
 @section('title', 'Item Master')
 
-@section('content_header', 'Item Master')
+@section('content_header')
+    <div class="d-flex justify-content-between align-items-center flex-column flex-md-row text-md-start text-center">
+        <h1 class="m-0 mb-2 mb-md-0">
+            <i class="fas fa-boxes"></i> Item Master
+        </h1>
+    </div>
+@stop
 
 @section('content')
 

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->uuid('in_det_uuid')->unique()->nullable();;
             $table->unsignedBigInteger('in_det_mstr');
             $table->string('in_det_loc');
-            $table->string('in_det_item');
+            $table->unsignedBigInteger('in_det_item');
             $table->string('in_det_desc')->nullable();
             $table->decimal('in_det_qty', 18, 2)->nullable();
             $table->string('in_det_uom')->nullable();

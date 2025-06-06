@@ -52,6 +52,13 @@ Sistem ini terbagi menjadi beberapa modul inti yang bekerja sama untuk mengoptim
 -   **Authorization**: Spatie Permission
 -   **Data Table**: Datatables AJAX (Server-side rendering)
 
+## 📝 Rencana Pengembangan (To-Do List)
+
+1. Modul Work Order (Perintah Kerja Produksi) ⚙️
+2. Notifikasi Real-time 🔔
+3. Modul Penerimaan Barang 🚚
+4. Laporan & Ekspor (Excel & PDF) 📄
+
 ---
 
 Silakan hubungi saya jika Anda memiliki pertanyaan atau ingin berkontribusi! 👋

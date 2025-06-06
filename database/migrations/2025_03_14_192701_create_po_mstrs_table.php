@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('po_mstr_vendor')->nullable();
             $table->date('po_mstr_delivery_date')->nullable();
             $table->date('po_mstr_arrival_date')->nullable();
-            $table->boolean('po_mstr_status')->default(0);
+            $table->string('po_mstr_status')->nullable()->default(0);
             $table->string('po_mstr_remarks')->nullable();
             $table->decimal('po_mstr_total', 20, 2)->nullable();
             $table->bigInteger('po_mstr_cb')->nullable();

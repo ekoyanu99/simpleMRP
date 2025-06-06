@@ -28,6 +28,15 @@ class InDet extends Model
         'in_det_uuid',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->in_det_uuid = Str::uuid();
+        });
+    }
+
+
     public function itemMstr()
     {
         return $this->belongsTo(ItemMstr::class, 'in_det_item', 'item_id');

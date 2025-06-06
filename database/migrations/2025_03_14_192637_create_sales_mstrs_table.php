@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('sales_mstr_ship')->nullable();
             $table->date('sales_mstr_date')->nullable();
             $table->date('sales_mstr_due_date')->nullable();
-            $table->string('sales_mstr_status', 20)->nullable();
+            $table->string('sales_mstr_status', 20)->nullable(); // e.g., 'open', 'closed', 'cancelled' [1,2,3]
             $table->decimal('sales_mstr_total', 20, 2)->nullable();
             $table->bigInteger('sales_mstr_cb')->nullable();
             $table->timestamps();
