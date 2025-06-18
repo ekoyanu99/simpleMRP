@@ -19,12 +19,6 @@
 
 <body>
     <div class="container">
-        @section('content_header')
-            <header class="my-4">
-                <h1>{{ $title ?? 'simpleMRP' }}</h1>
-            </header>
-        @show
-
         <main>
             @yield('content')
         </main>

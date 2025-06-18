@@ -25,13 +25,12 @@ $(document).ready(function () {
             url: "PermissionMstrList/data",
             data: function (d) {
                 d.fid_Name = $("#fid_Name").val();
-                d.fid_Desc = $("#fid_Desc").val();
             },
         },
         columns: [
             {
                 data: "DT_RowIndex",
-                name: "DT_RowIndex",
+                name: "id",
                 orderable: false,
                 searchable: false,
                 className: "text-nowrap text-end"
@@ -42,20 +41,8 @@ $(document).ready(function () {
                 className: "text-nowrap text-start"
             },
             {
-                data: "permission_mstr_desc",
-                name: "permission_mstr_desc",
-                className: "text-nowrap text-start"
-            },
-            {
-                data: "user_mstr_name",
-                name: "user_mstr_name",
-                orderable: false,
-                searchable: false,
-                className: "text-nowrap text-start"
-            },
-            {
-                data: "permission_mstr_ut",
-                name: "permission_mstr_ut",
+                data: "updated_at",
+                name: "updated_at",
                 className: "text-nowrap text-end"
             },
             {

@@ -22,36 +22,26 @@ class PermissionController extends Controller
             abort(403, 'Unauthorized action');
         }
 
-        $q = Permission::query()->with('userMstr');
+        $q = Permission::query();
 
         if ($request->has('fid_Name') && !empty($request->input('fid_Name'))) {
-            $q->where('permission_mstr.name', 'LIKE', '%' . $request->input('fid_Name') . '%');
+            $q->where('permissions.name', 'LIKE', '%' . $request->input('fid_Name') . '%');
         }
-
-        if ($request->has('fid_Desc') && !empty($request->input('fid_Desc'))) {
-            $q->where('permission_mstr.permission_mstr_desc', 'LIKE', '%' . $request->input('fid_Desc') . '%');
-        }
-
-        // $permissions = $query->get();
 
         return DataTables::of($q)
             ->addIndexColumn()
-            ->addColumn('user_mstr_name', function ($permission) {
-                return $permission->userMstr->user_mstr_name ?? '';
-            })
             // update at
-            ->addColumn('permission_mstr_ut', function ($permission) {
-                return $permission->permission_mstr_ut->diffForHumans();
+            ->addColumn('updated_at', function ($permission) {
+                return $permission->updated_at ? $permission->updated_at->diffForHumans() : '-';
             })
-            ->addColumn('action', 'PermissionMstrListDT')
+            ->addColumn('action', 'permission.datatable')
             ->rawColumns(['action'])
             ->make(true);
     }
 
     public function index()
     {
-        // $permissions = Permission::get();
-        return view($this->route);
+        return view('permission.index');
     }
 
     public function create()
@@ -63,8 +53,7 @@ class PermissionController extends Controller
     {
 
         $check = Validator::make($request->all(), [
-            'f_Name' => 'required|string|unique:permission_mstr,name',
-            'f_Desc' => 'nullable|string',
+            'f_Name' => 'required|string|unique:permissions,name',
         ], [
             'f_Name.required' => 'Permission name is required',
             'f_Name.unique' => 'Permission name must be unique',
@@ -77,7 +66,6 @@ class PermissionController extends Controller
 
         Permission::create([
             'name' => $request->f_Name,
-            'permission_mstr_desc' => $request->f_Desc
         ]);
 
         $message = 'Permission Created Succcesfully';
@@ -95,8 +83,7 @@ class PermissionController extends Controller
 
         $permission = Permission::findOrFail($permissionId);
         $check = Validator::make($request->all(), [
-            'f_Name' => 'required|string|unique:permission_mstr,name,' . $permission->id,
-            'f_Desc' => 'nullable|string',
+            'f_Name' => 'required|string|unique:permissions,name,' . $permission->id,
         ], [
             'f_Name.required' => 'Permission name is required',
             'f_Name.unique' => 'Permission name must be unique',
@@ -108,7 +95,6 @@ class PermissionController extends Controller
 
         $permission->update([
             'name' => $request->f_Name,
-            'permission_mstr_desc' => $request->f_Desc
         ]);
 
         $message = 'Permission Updated Succesfully';
