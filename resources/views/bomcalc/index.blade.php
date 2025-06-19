@@ -83,7 +83,7 @@
                             @foreach ($results as $item)
                                 <tr>
                                     <td><span class="badge badge-secondary">LVL {{ $item['level'] }}</span></td>
-                                    <td>{{ $item['parent_name'] }} <small class="text-muted">({{ $item['parent'] }})</small>
+                                    <td>{{ $item['parent_name'] }}
                                     </td>
                                     <td>
                                         <i class="fas fa-chevron-right text-sm text-muted"></i>
@@ -166,7 +166,6 @@
                 chartData.push([{
                         'v': '{{ $fgItem->item_id }}',
                         'f': '<div class="chart-node-title"><i class="fas fa-cube"></i> {{ $fgItem->item_name }}</div>' +
-                            '<div class="chart-node-subtitle">({{ $fgItem->item_id }})</div>' +
                             '<div class="chart-node-qty">Qty: {{ formatNumberV2($qtyReq) }} {{ $fgItem->item_uom }}</div>'
                     },
                     '',
@@ -177,7 +176,6 @@
                     chartData.push([{
                             'v': '{{ $item['component'] }}',
                             'f': '<div class="chart-node-title"><i class="fas fa-sitemap"></i> {{ $item['component_name'] }}</div>' +
-                                '<div class="chart-node-subtitle">({{ $item['component'] }})</div>' +
                                 '<div class="chart-node-qty">Req: {{ formatNumberV2($item['required_qty']) }} {{ $item['uom'] }}</div>'
                         },
                         '{{ $item['parent'] }}',

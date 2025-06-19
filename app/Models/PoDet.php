@@ -11,7 +11,7 @@ class PoDet extends Model
     use HasFactory;
 
     protected $table = 'po_det';
-    protected $primaryKey = 'po_det_id';
+    protected $primaryKey = 'pod_det_id';
     protected $fillable = [
         'pod_det_mstr',
         'pod_det_item',
@@ -30,7 +30,7 @@ class PoDet extends Model
     {
         parent::boot();
         static::creating(function ($model) {
-            $model->po_det_uuid = Str::uuid(); // Auto-generate
+            $model->pod_det_uuid = Str::uuid(); // Auto-generate
         });
     }
 

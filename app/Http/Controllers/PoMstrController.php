@@ -82,10 +82,9 @@ class PoMstrController extends Controller
                 'po_mstr_cb' => $id
             ]);
 
-            return redirect('PoMstrs')->with('status', 'success');
+            return redirect()->route('PoMstrs.show', $poMstr->po_mstr_uuid)->with('status', 'success');
         } catch (\Throwable $th) {
 
-            dd($th);
             return redirect('PoMstrs')->with('status', 'error');
         }
     }
@@ -93,10 +92,10 @@ class PoMstrController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($poMstrId)
+    public function show($poMstrUuid)
     {
         //
-        $poMstr = PoMstr::with('poDet.itemMstr')->findOrFail($poMstrId);
+        $poMstr = PoMstr::with('poDet.itemMstr')->where('po_mstr_uuid', $poMstrUuid)->firstOrFail();
         $items = ItemMstr::where('item_pmcode', 'P')->get();
         return view('po.edit', compact('poMstr', 'items'));
     }
@@ -104,9 +103,9 @@ class PoMstrController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($poMstrId)
+    public function edit($poMstrUuid)
     {
-        $poMstr = PoMstr::with('poDet.itemMstr')->findOrFail($poMstrId);
+        $poMstr = PoMstr::with('poDet.itemMstr')->where('po_mstr_uuid', $poMstrUuid)->firstOrFail();
         $items = ItemMstr::where('item_pmcode', 'P')->get();
         return view('po.edit', compact('poMstr', 'items'));
     }
@@ -114,10 +113,10 @@ class PoMstrController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePoMstrRequest $request, $id)
+    public function update(UpdatePoMstrRequest $request, $poMstrUuid)
     {
         //
-        $poMstr = PoMstr::findOrFail($id);
+        $poMstr = PoMstr::where('po_mstr_uuid', $poMstrUuid)->firstOrFail();
         $id = Auth::user()->id;
 
         $data = [
@@ -138,10 +137,16 @@ class PoMstrController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($poMstrId)
+    public function destroy($poMstrUuid)
     {
         //
-        $poMstr = PoMstr::findOrFail($poMstrId);
+        $poMstr = PoMstr::findOrFail($poMstrUuid);
+        // Check if there are any sales details associated with this sales master
+        if ($poMstr->poDet()->count() > 0) {
+
+            // delete the details first
+            $poMstr->poDet()->delete();
+        }
         if ($poMstr->delete()) {
             return redirect()->back()->with('status', 'success');
         } else {

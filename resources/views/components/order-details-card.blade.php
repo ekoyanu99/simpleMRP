@@ -34,7 +34,7 @@
                         @foreach ($details as $detail)
                             @php
                                 // Generalisasi properti untuk Sales dan Purchase Order
-                                $det_uuid = $detail->sales_det_uuid ?? $detail->po_det_uuid;
+                                $det_uuid = $detail->sales_det_uuid ?? $detail->pod_det_uuid;
                                 $det_id = $detail->sales_det_id ?? $detail->po_det_id;
                                 $det_date = $detail->sales_det_date ?? $detail->po_det_date;
                                 $det_duedate = $detail->sales_det_duedate ?? $detail->po_det_duedate;

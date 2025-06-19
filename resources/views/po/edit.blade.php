@@ -6,147 +6,164 @@
 
 @section('content')
 
-    <div class="row">
-        <div class="col-md-4 col-sm-12">
-            {{-- data header --}}
-            <form class="" action="{{ route('PoMstrs.update', $poMstr->po_mstr_id) }}" method="post" autocomplete="off">
-                @csrf
-                @method('PUT')
-                <div class="card">
-                    <div class="card-body">
-                        <div class="form-row mb-4">
-                            <div class="form-group col-md-6">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 col-sm-12">
+                {{-- data header --}}
+                <form class="" action="{{ route('PoMstrs.update', $poMstr->po_mstr_id) }}" method="post"
+                    autocomplete="off">
+                    @csrf
+                    @method('PUT')
+                    <div class="card card-outline card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-receipt"></i> Data Purchase Order</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
                                 <label for="po_mstr_nbr" class="form-label">
+                                    <i class="fas fa-hashtag text-info"></i>
                                     PO Number
                                 </label>
                                 <input type="text" name="efid_nbr" id="po_mstr_nbr" class="form-control form-control-sm"
                                     placeholder="" required="" value="{{ $poMstr->po_mstr_nbr }}">
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group">
                                 <label for="po_mstr_vendor" class="form-label">
-                                    Vendor
+                                    <i class="fas fa-user text-purple"></i> Vendor
                                 </label>
                                 <input type="text" name="efid_vendor" id="po_mstr_vendor"
                                     class="form-control form-control-sm" placeholder="" required=""
                                     value="{{ $poMstr->po_mstr_vendor }}">
                             </div>
 
-                            <div class="form-group col-md-6">
+                            <div class="form-group">
                                 <label for="po_mstr_date" class="form-label">
-                                    Date Order
+                                    <i class="fas fa-calendar-alt text-primary"></i> Date Order
                                 </label>
                                 <input type="date" name="efid_date" id="po_mstr_date"
                                     class="form-control form-control-sm" placeholder="" required=""
                                     value="{{ $poMstr->po_mstr_date }}">
                             </div>
 
-                            <div class="form-group col-md-6">
+                            <div class="form-group">
                                 <label for="po_mstr_delivery_date" class="form-label">
-                                    ETD
+                                    <i class="fas fa-calendar-check text-success"></i> ETD
                                 </label>
                                 <input type="date" name="efid_delivery" id="po_mstr_delivery_date"
                                     class="form-control form-control-sm" placeholder="" required=""
                                     value="{{ $poMstr->po_mstr_delivery_date }}">
                             </div>
 
-                            <div class="form-group col-md-6">
+                            <div class="form-group">
                                 <label for="po_mstr_arrival_date" class="form-label">
-                                    ETA
+                                    <i class="fas fa-calendar-check text-success"></i> ETA
                                 </label>
                                 <input type="date" name="efid_arrival" id="po_mstr_arrival_date"
                                     class="form-control form-control-sm" placeholder="" required=""
                                     value="{{ $poMstr->po_mstr_arrival_date }}">
                             </div>
-
+                        </div>
+                        <div class="card-footer d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary mr-2"><i class="fas fa-save"></i> Save
+                                Changes</button>
+                            <a href="{{ route('PoMstrs.index') }}" class="btn btn-secondary"><i
+                                    class="fas fa-times-circle"></i> Cancel</a>
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary"> <i class="fas fa-save"></i> </button>
-                        <a href="{{ url('PoMstrs') }}" class="btn btn-secondary"> <i class="fas fa-arrow-left"></i> </a>
-                    </div>
-                </div>
 
+                </form>
+            </div>
 
-            </form>
-        </div>
-
-        <div class="col-md-8 col-sm-12">
-            {{-- data detail --}}
-            <div class="card">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-4 col-lg-auto mt-1 ">
-                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
-                                data-target="#modalAddPoDet">
-                                Add New PO Detail
-                            </button>
+            <div class="col-md-8 col-sm-12">
+                {{-- data detail --}}
+                <div class="card card-outline card-secondary">
+                    <div class="card-header">
+                        <div
+                            class="d-flex justify-content-between align-items-center flex-column flex-md-row text-md-start text-center w-100">
+                            <h3 class="card-title m-0 mb-2 mb-md-0"><i class="fas fa-list-alt"></i> PO Detail
+                            </h3>
+                            <div class="card-tools m-0">
+                                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
+                                    data-target="#modalAddPoDet">
+                                    <i class="fas fa-plus-circle mr-1"></i> Add New PO Detail
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-body">
+                    <div class="card-body">
 
-                    <div class="table-responsive">
+                        <div class="table-responsive">
 
-                        <table class="table table-bordered table-striped table-hover" id="poDetTable">
-                            <thead>
-                                <tr>
-                                    <th style="width: 5%;">No</th>
-                                    <th style="width: 30%;">Purchase Number</th>
-                                    <th style="width: 15%;">Item</th>
-                                    <th>Desc</th>
-                                    <th style="width: 5%;">Qty</th>
-                                    <th style="width: 5%;">Price</th>
-                                    <th style="width: 10%;">Total</th>
-                                    <th style="width: 6%;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($poMstr->poDet as $poDet)
+                            <table class="table table-bordered table-striped table-hover" id="poDetTable">
+                                <thead>
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $poMstr->po_mstr_nbr }}</td>
-                                        <td>{{ $poDet->itemMstr->item_name }}</td>
-                                        <td>{{ $poDet->pod_det_desc }}</td>
-                                        <td>{{ $poDet->pod_det_qty ? formatNumberV2($poDet->pod_det_qty) : $poDet->pod_det_qty }}
-                                        </td>
-                                        <td>{{ $poDet->pod_det_price ? formatCurrency($poDet->pod_det_price) : $poDet->pod_det_price }}
-                                        </td>
-                                        <td>{{ $poDet->pod_det_qty * $poDet->pod_det_price ? formatCurrency($poDet->pod_det_qty * $poDet->pod_det_price) : $poDet->pod_det_qty * $poDet->pod_det_price }}
-                                        </td>
-                                        <td>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <button class="btn btn-sm btn-info editButton"
-                                                        data-id="{{ $poDet->pod_det_id }}" {{-- data-etd="{{ $poDet->pod_det_delivery }}"
-                                                        data-eta="{{ $poDet->pod_det_arrival }}" --}}
-                                                        data-item="{{ $poDet->pod_det_item }}"
-                                                        data-desc="{{ $poDet->pod_det_desc }}"
-                                                        data-qty="{{ $poDet->pod_det_qty }}"
-                                                        data-price="{{ $poDet->pod_det_price }}"
-                                                        data-url="{{ url('PoDets/' . $poDet->po_det_id) }}"
-                                                        data-toggle="modal" data-target="#editModal">
-                                                        <i
-                                                            class="fas fa-pen
-                                                        "></i>
-                                                    </button>
-
-                                                    <a href="{{ url('PoDet/' . $poDet->po_det_id . '/delete') }}"
-                                                        class="btn btn-sm btn-danger rounded"><i class="fas fa-trash"
-                                                            aria-hidden="true"></i></a>
-                                                </div>
-                                            </div>
-                                        </td>
+                                        <th style="width: 5%;">No</th>
+                                        <th style="width: 30%;">Purchase Number</th>
+                                        <th style="width: 15%;">Item</th>
+                                        <th>Desc</th>
+                                        <th style="width: 5%;">Qty</th>
+                                        <th style="width: 5%;">Price</th>
+                                        <th style="width: 10%;">Total</th>
+                                        <th style="width: 6%;">Action</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($poMstr->poDet as $poDet)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $poMstr->po_mstr_nbr }}</td>
+                                            <td>{{ $poDet->itemMstr->item_name }}</td>
+                                            <td>{{ $poDet->pod_det_desc }}</td>
+                                            <td>{{ $poDet->pod_det_qty ? formatNumberV2($poDet->pod_det_qty) : $poDet->pod_det_qty }}
+                                            </td>
+                                            <td>{{ $poDet->pod_det_price ? formatCurrency($poDet->pod_det_price) : $poDet->pod_det_price }}
+                                            </td>
+                                            <td>{{ $poDet->pod_det_qty * $poDet->pod_det_price ? formatCurrency($poDet->pod_det_qty * $poDet->pod_det_price) : $poDet->pod_det_qty * $poDet->pod_det_price }}
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <button class="btn btn-sm btn-info editButton"
+                                                            data-id="{{ $poDet->pod_det_id }}" {{-- data-etd="{{ $poDet->pod_det_delivery }}"
+                                                        data-eta="{{ $poDet->pod_det_arrival }}" --}}
+                                                            data-item="{{ $poDet->pod_det_item }}"
+                                                            data-desc="{{ $poDet->pod_det_desc }}"
+                                                            data-qty="{{ $poDet->pod_det_qty }}"
+                                                            data-price="{{ $poDet->pod_det_price }}"
+                                                            data-url="{{ url('PoDets/' . $poDet->pod_det_uuid) }}"
+                                                            data-uuid="{{ $poDet->pod_det_uuid }}" data-toggle="modal"
+                                                            data-target="#editModal">
+                                                            <i
+                                                                class="fas fa-pen
+                                                        "></i>
+                                                        </button>
+
+                                                        <a href="{{ url('PoDet/' . $poDet->pod_det_uuid . '/delete') }}"
+                                                            class="btn btn-sm btn-danger rounded"><i class="fas fa-trash"
+                                                                aria-hidden="true"></i></a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+
+                        </div>
 
                     </div>
-
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
 
     <form action="{{ route('PoDets.store') }}" method="post" autocomplete="off">
@@ -155,9 +172,10 @@
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Add New Purchase Detail</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="modalAddPoDetTitle"><i class="fas fa-plus-circle mr-2"></i> Add
+                            PO Detail</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -175,7 +193,7 @@
 
                             <div class="form-group col-md-6">
                                 <label for="pod_det_delivery" class="form-label">
-                                    ETD
+                                    <i class="fas fa-calendar-check text-success"></i> ETD
                                 </label>
                                 <input type="date" name="pod_det_delivery" id="pod_det_delivery"
                                     class="form-control form-control-sm" placeholder="" required=""
@@ -184,7 +202,7 @@
 
                             <div class="form-group col-md-6">
                                 <label for="pod_det_arrival" class="form-label">
-                                    ETA
+                                    <i class="fas fa-calendar-check text-success"></i> ETA
                                 </label>
                                 <input type="date" name="pod_det_arrival" id="pod_det_arrival"
                                     class="form-control form-control-sm" placeholder="" required=""
@@ -194,7 +212,7 @@
 
                             <div class="form-group col-md-6">
                                 <label for="pod_detitem" class="form-label">
-                                    Item
+                                    <i class="fas fa-box text-purple"></i> Item
                                 </label>
 
                                 <x-adminlte-select2 name="pod_det_item" id="pod_det_item" onchange="getDesc()"
@@ -209,7 +227,7 @@
 
                             <div class="form-group col-md-6">
                                 <label for="pod_det_desc" class="form-label">
-                                    Description
+                                    <i class="fas fa-file-alt text-secondary"></i> Description
                                 </label>
                                 <input type="text" name="pod_det_desc" id="pod_det_desc"
                                     class="form-control form-control-sm" readonly required=""
@@ -218,6 +236,7 @@
 
                             <div class="form-group col-md-6">
                                 <label for="pod_det_qty" class="form-label">
+                                    <i class="fas fa-sort-numeric-up-alt text-info"></i>
                                     Qty
                                 </label>
                                 <input type="number" name="pod_det_qty" id="pod_det_qty"
@@ -227,6 +246,7 @@
 
                             <div class="form-group col-md-6">
                                 <label for="pod_det_price" class="form-label">
+                                    <i class="fas fa-dollar-sign text-danger"></i>
                                     Price
                                 </label>
                                 <input type="number" name="pod_det_price" id="pod_det_price"
@@ -236,7 +256,7 @@
 
                             <div class="form-group col-md-12">
                                 <label for="pod_det_remarks" class="form-label">
-                                    Remarks
+                                    <i class="fas fa-comment-dots text-muted"></i> Remarks
                                 </label>
                                 <input type="text" name="pod_det_remarks" id="pod_det_remarks"
                                     class="form-control form-control-sm" required=""
@@ -246,8 +266,9 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                                class="fas fa-times"></i> Cancel</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Detail</button>
                     </div>
                 </div>
             </div>

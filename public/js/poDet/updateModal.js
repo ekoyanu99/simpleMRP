@@ -8,6 +8,7 @@ $(document).on("click", ".editButton", function () {
     const desc = $(this).data("desc");
     const qty = $(this).data("qty");
     const price = $(this).data("price");
+    const uuid = $(this).data("uuid");
     
     const url = $(this).data("url");
 

@@ -317,7 +317,6 @@ class BomMstrController extends Controller
             if (isset($childrenMap[$id])) {
                 foreach ($childrenMap[$id] as $childId) {
                     if (isset($nodes[$childId])) {
-                        // Tambahkan child ke array children dari parent menggunakan REFERENSI node
                         $node['children'][] = &$nodes[$childId];
                     }
                 }

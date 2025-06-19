@@ -5,46 +5,58 @@
 @section('content_header', 'Purchase Order')
 
 @section('content')
-    <div class="card">
-        <div class="card-header">
-            <div class="d-flex justify-content-between align-items-center flex-column flex-md-row text-md-start text-center">
-                <div class="d-flex flex-column mb-2 mb-md-0">
-                    <div class="fw-semibold">
-                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalAddPo">
-                            <i class="fas fa-plus-circle me-1"></i> Add New PO
+    <div class="container-fluid">
+        <div class="card card-outline card-info">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center w-100 py-2">
+                    <h3 class="card-title m-0">
+                        <i class="fas fa-list-ul mr-2"></i>Daftar Purchase Order
+                    </h3>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <x-action-button-header :show-export="true" />
+
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalAddPo">
+                            <i class="fas fa-plus-circle"></i>
+                            <span class="d-none d-sm-inline">Add New PO</span>
+                            <span class="d-inline d-sm-none"></span>
+                        </button>
+
+                        <button type="button" class="btn btn-tool px-2" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
                         </button>
                     </div>
                 </div>
-                <x-action-button-header :show-export="true" />
             </div>
-        </div>
-        <div class="card-body">
+            <div class="card-body">
 
-            <div class="table-responsive">
+                <div class="table-responsive">
 
-                <table class="table table-bordered table-striped table-hover" id="pomstrlistTable">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>PO Number</th>
-                            <th>Supplier</th>
-                            <th>Order Date</th>
-                            <th>ETD</th>
-                            <th>ETA</th>
-                            <th>Remarks</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
+                    <table class="table table-bordered table-striped table-hover" id="pomstrlistTable">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>PO Number</th>
+                                <th>Supplier</th>
+                                <th>Order Date</th>
+                                <th>ETD</th>
+                                <th>ETA</th>
+                                <th>Remarks</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
+                        <tbody>
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+
+                </div>
 
             </div>
-
         </div>
     </div>
+
 
     <form action="{{ route('PoMstrs.store') }}" method="post" autocomplete="off">
         @csrf

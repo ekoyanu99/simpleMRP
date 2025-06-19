@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('po_det', function (Blueprint $table) {
-            $table->id('po_det_id');
-            $table->uuid('po_det_uuid')->unique()->nullable();;
+            $table->id('pod_det_id');
+            $table->uuid('pod_det_uuid')->unique()->nullable();;
             $table->unsignedBigInteger('pod_det_mstr');
             $table->string('pod_det_item');
             $table->string('pod_det_desc')->nullable();

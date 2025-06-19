@@ -2,6 +2,7 @@
 
 @section('title', 'Sales Order')
 
+
 @section('content_header')
     <div class="d-flex justify-content-between align-items-center flex-column flex-md-row text-md-start text-center">
         <h1 class="m-0 mb-2 mb-md-0">
@@ -14,15 +15,20 @@
     <div class="container-fluid">
         <div class="card card-outline card-info">
             <div class="card-header">
-                <div
-                    class="d-flex justify-content-between align-items-center flex-column flex-md-row text-md-start text-center w-100">
+                <div class="d-flex justify-content-between align-items-center w-100 py-2">
                     <h3 class="card-title m-0 mb-2 mb-md-0"><i class="fas fa-list-ul"></i> Daftar Sales Order</h3>
-                    <div class="card-tools m-0">
-                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+
+                    <div class="d-flex align-items-center gap-2">
+                        <x-action-button-header :show-export="true" />
+
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                             data-target="#modalAddSales">
-                            <i class="fas fa-plus-circle mr-1"></i> Add New Sales
+                            <i class="fas fa-plus-circle"></i>
+                            <span class="d-none d-sm-inline">Add New Sales</span>
+                            <span class="d-inline d-sm-none"></span>
                         </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+
+                        <button type="button" class="btn btn-tool px-2" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
                         </button>
                     </div>
@@ -185,6 +191,64 @@
             </div>
         </div>
     </form>
+
+    <form id="addFilterForm" action="" method="post" autocomplete="off" onkeydown="return event.key != 'Enter'">
+        <div class="modal fade" id="modalFilter" tabindex="-1" role="dialog" aria-labelledby="modalFilterLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header"
+                        style="background-color: #222149; color: white; border-bottom: 1px solid #dee2e6;">
+                        <h5 class="modal-title" id="modalFilterLabel">Filter</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
+                            style="color: white; font-size: 1.5rem; border: none; background: transparent;">
+                            &times;
+                        </button>
+                    </div>
+
+                    <div class="modal-body" style="background-color: #f8f9fa; color: #212529;">
+
+                        <fieldset class="border p-3 mb-2">
+                            <legend class="float-none w-auto px-2 fw-bold text-danger" style="font-size: 12px;">Click the
+                                filter button to start searching. If you want to
+                                reset the filter, please click the reset button.</legend>
+                            </legend>
+                            <div class="row">
+
+                                <x-adminlte-input id="f_sales_mstr_nbr" name="f_sales_mstr_nbr" label="Sales Number"
+                                    placeholder="Search by SO Number" fgroup-class="col-md-4" />
+
+                                <x-adminlte-input id="f_sales_mstr_bill" name="f_sales_mstr_bill" label="Bill To"
+                                    placeholder="Search by Bill To" fgroup-class="col-md-4" />
+
+                                <x-adminlte-input id="f_sales_mstr_ship" name="f_sales_mstr_ship" label="Ship To"
+                                    placeholder="Search by Ship To" fgroup-class="col-md-4" />
+
+                            </div>
+                            <div class="flex-sb-m w-full p-t-15 p-b-20 d-flex align-items-center">
+                                <span class="form-check">
+                                    <label class="form-check-label" for="isExactMatch">
+                                        <input class="form-check-input me-2" type="checkbox" name="isExactMatch"
+                                            id="isExactMatch" value="0"
+                                            onchange="this.value = this.checked ? 1 : 0">
+                                        Exact Match
+                                    </label>
+                                </span>
+                            </div>
+                        </fieldset>
+
+                    </div>
+                    <div class="modal-footer"
+                        style="background-color: #f8f9fa; color: #212529; border-top: solid 1px #ece0ea;">
+
+                        <x-action-button-filter />
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
 @stop
 
 @push('styles')

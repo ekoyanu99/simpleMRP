@@ -69,11 +69,11 @@ Route::middleware('auth')->group(function () {
     // PoMstr
     Route::resource('PoMstrs', PoMstrController::class);
     Route::get('/PoMstr/json', [PoMstrController::class, 'data'])->name('PoMstr.data');
-    Route::get('PoMstr/{poMstrId}/delete', [PoMstrController::class, 'destroy']);
+    Route::get('PoMstr/{poMstrUuid}/delete', [PoMstrController::class, 'destroy']);
     // PoDet
     Route::resource('PoDets', PoDetController::class);
     Route::get('/PoDet/json', [PoDetController::class, 'data'])->name('PoDet.data');
-    Route::get('PoDet/{poDetId}/delete', [PoDetController::class, 'destroy']);
+    Route::get('PoDet/{poDetUuid}/delete', [PoDetController::class, 'destroy']);
 
     Route::get('GetDesc/{itemId}', [ItemMstrController::class, 'getDesc']);
 

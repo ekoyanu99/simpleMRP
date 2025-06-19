@@ -82,10 +82,10 @@ class PoDetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePoDetRequest $request, $id)
+    public function update(UpdatePoDetRequest $request, $poDetUuid)
     {
         //
-        $poDet = PoDet::findOrFail($id);
+        $poDet = PoDet::where('pod_det_uuid', $poDetUuid)->firstOrFail();
         try {
             $id = Auth::user()->id;
 
@@ -115,10 +115,10 @@ class PoDetController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($poDetId)
+    public function destroy($poDetUuid)
     {
         //
-        $poDet = PoDet::findOrFail($poDetId);
+        $poDet = PoDet::where('pod_det_uuid', $poDetUuid)->firstOrFail();
         try {
             $poDet->delete();
             return redirect()->back()->with('status', 'success');
