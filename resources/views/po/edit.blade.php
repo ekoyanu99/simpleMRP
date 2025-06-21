@@ -38,7 +38,7 @@
                                 </label>
                                 <input type="text" name="efid_vendor" id="po_mstr_vendor"
                                     class="form-control form-control-sm" placeholder="" required=""
-                                    value="{{ $poMstr->po_mstr_vendor }}">
+                                    value="{{ $poMstr->po_mstr_vendor == '1' ? 'Toko Bahan Kue "Berkah Jaya"' : 'Toko Bahan Kue "Sinar Jaya"' }}">
                             </div>
 
                             <div class="form-group">

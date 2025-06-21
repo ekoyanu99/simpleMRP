@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\SalesMstr;
 use App\Http\Requests\StoreSalesMstrRequest;
 use App\Http\Requests\UpdateSalesMstrRequest;
+use App\Jobs\RunMrpJob;
 use App\Models\ItemMstr;
 use App\Models\OdmMstr;
 use Illuminate\Support\Facades\Auth;
@@ -144,6 +145,7 @@ class SalesMstrController extends Controller
 
             // delete the details first
             $salesMstr->salesDet()->delete();
+            RunMrpJob::dispatch();
         }
         if ($salesMstr->delete()) {
             return redirect()->back()->with('status', 'success');

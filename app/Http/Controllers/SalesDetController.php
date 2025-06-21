@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\SalesDet;
 use App\Http\Requests\StoreSalesDetRequest;
 use App\Http\Requests\UpdateSalesDetRequest;
+use App\Jobs\RunMrpJob;
 use App\Models\ItemMstr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -52,6 +53,9 @@ class SalesDetController extends Controller
             ]);
 
             if ($this->rowInserted($request->sales_det_mstr, $salesDet->sales_det_id)) {
+                // trigger RunMrpJob
+                RunMrpJob::dispatch();
+
                 return redirect()->back()->with('status', 'success');
             } else {
                 return redirect()->back()->with('status', 'error');
@@ -103,6 +107,7 @@ class SalesDetController extends Controller
 
         if ($salesDet->update($data)) {
             $this->rowInserted($salesDet->sales_det_mstr, $salesDet->sales_det_id);
+            RunMrpJob::dispatch();
 
             return redirect()->back()->with('status', 'success');
         } else {
@@ -126,6 +131,7 @@ class SalesDetController extends Controller
             // delete odm_mstr
             $sql = "DELETE FROM odm_mstr WHERE odm_mstr_nbr = ? AND odm_mstr_sodid = ?";
             DB::delete($sql, [$salesDet->salesMstr->sales_mstr_nbr, $salesDet->sales_det_id]);
+            RunMrpJob::dispatch();
 
             return redirect()->back()->with('status', 'success');
         } else {
@@ -339,14 +345,14 @@ class SalesDetController extends Controller
 
         $nbr = $row->nbr;
 
-        $sql2 = "SELECT SUM(sales_det_total) as ttlSales FROM sales_det WHERE sales_det_mstr = ?";
+        $sql2 = "SELECT SUM(sales_det_total) as ttlsales FROM sales_det WHERE sales_det_mstr = ?";
         $row2 = DB::selectOne($sql2, [$idSo]);
 
         if (!$row2) {
             return false;
         }
 
-        $ttlSales = $row2->ttlSales ?? 0;
+        $ttlSales = $row2->ttlsales ?? 0;
         $updated = DB::update("UPDATE sales_mstr SET sales_mstr_total = ? WHERE sales_mstr_id = ?", [$ttlSales, $idSo]);
 
         $sod = SalesDet::findOrFail($idSod);

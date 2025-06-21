@@ -102,6 +102,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/UserMstrList', [UserController::class, 'index'])->name('UserMstrList');
     Route::get('/UserMstrList/data', [UserController::class, 'data'])->name('UserMstr.data');
     Route::get('UserMstr/{userId}/delete', [UserController::class, 'destroy']);
+
+    // Odm Mstr
+    Route::resource('OdmMstrs', OdmMstrController::class);
+    Route::get('/OdmMstr/json', [OdmMstrController::class, 'data'])->name('OdmMstr.data');
 });
 
 require __DIR__ . '/auth.php';

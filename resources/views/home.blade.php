@@ -3,11 +3,10 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Dashboard</h1>
 @stop
 
 @section('content')
-    <div class="row">
+    <div class="row mt-2">
         <div class="col-lg-3 col-6">
             <x-adminlte-info-box title="Sales Order Baru" text="{{ $newSOCount }}" icon="fas fa-lg fa-handshake"
                 theme="gradient-primary" url="{{ route('SalesMstrs.index') }}" url-text="Lihat Detail"

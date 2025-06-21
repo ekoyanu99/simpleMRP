@@ -140,7 +140,7 @@ class PoMstrController extends Controller
     public function destroy($poMstrUuid)
     {
         //
-        $poMstr = PoMstr::findOrFail($poMstrUuid);
+        $poMstr = PoMstr::where('po_mstr_uuid', $poMstrUuid)->firstOrFail();
         // Check if there are any sales details associated with this sales master
         if ($poMstr->poDet()->count() > 0) {
 

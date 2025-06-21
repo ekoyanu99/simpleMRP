@@ -148,7 +148,7 @@ class MrpMstrController extends Controller
                 'mrp_mstr_saldo' => $currentStock,
                 'mrp_mstr_summary' => $materialRequirement,
                 'mrp_mstr_proceded' => false, // Will be updated after detail processing
-                'mrp_mstr_cb' => Auth::id()
+                'mrp_mstr_cb' => Auth::id() ?? '1'
             ]);
 
             // Get all demand details for this item
@@ -219,7 +219,7 @@ class MrpMstrController extends Controller
                     'mrp_det_mr' => $mr,
                     'mrp_det_status' => $status,
                     'mrp_det_remarks' => $mr > 0 ? 'Need to purchase' : 'Stock available',
-                    'mrp_det_cb' => Auth::id()
+                    'mrp_det_cb' => Auth::id() ?? '1'
                 ]);
             }
 

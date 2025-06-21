@@ -88,7 +88,7 @@
                                     Qty
                                 </label>
                                 <input type="number" name="in_det_qty" id="in_det_qty" class="form-control form-control-sm"
-                                    required="" value="{{ old('in_det_qty') }}">
+                                    required="" value="{{ old('in_det_qty') }}" step="0.01" min="0">
                             </div>
 
                         </div>

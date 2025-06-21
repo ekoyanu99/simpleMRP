@@ -87,8 +87,8 @@
                                 <x-adminlte-select2 name="po_mstr_vendor" id="po_mstr_vendor"
                                     data-dropdown-parent="#modalAddPo" required>
                                     <option value="">Select Vendor</option>
-                                    <option value="1">Supplier A</option>
-                                    <option value="2">Supplier B</option>
+                                    <option value="1">Toko Bahan Kue "Berkah Jaya"</option>
+                                    <option value="2">Toko Bahan Kue "Sinar Jaya"</option>
                                 </x-adminlte-select2>
                             </div>
                             <div class="form-group col-md-6">
