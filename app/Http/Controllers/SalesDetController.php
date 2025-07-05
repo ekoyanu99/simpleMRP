@@ -10,6 +10,7 @@ use App\Jobs\RunMrpJob;
 use App\Models\ItemMstr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class SalesDetController extends Controller
 {
@@ -55,6 +56,25 @@ class SalesDetController extends Controller
             if ($this->rowInserted($request->sales_det_mstr, $salesDet->sales_det_id)) {
                 // trigger RunMrpJob
                 RunMrpJob::dispatch();
+
+                $dataMster = SalesDet::where('sales_det_id', $salesDet->sales_det_id)
+                    ->with('salesMstr')
+                    ->firstOrFail();
+                $order = $dataMster->salesMstr;
+
+                $n8nWebhookUrl = env('N8N2_URL');
+
+                Http::withoutVerifying()->post($n8nWebhookUrl, [
+                    'sales_mstr_nbr' => $order->sales_mstr_nbr,
+                    'sales_mstr_bill' => $order->sales_mstr_bill,
+                    'sales_mstr_date' => $order->sales_mstr_date,
+                    'sales_mstr_total' => number_format($order->sales_mstr_total, 0, ',', '.'),
+                ]);
+
+                // hit calculateAndNotify Mrp mrpMstrController
+                $mrpMstrController = new MrpMstrController();
+                $mrpMstrController->calculateAndNotify();
+                // end hit calculateAndNotify Mrp mrpMstrController
 
                 return redirect()->back()->with('status', 'success');
             } else {
@@ -108,6 +128,25 @@ class SalesDetController extends Controller
         if ($salesDet->update($data)) {
             $this->rowInserted($salesDet->sales_det_mstr, $salesDet->sales_det_id);
             RunMrpJob::dispatch();
+
+            $dataMster = SalesDet::where('sales_det_id', $salesDet->sales_det_id)
+                ->with('salesMstr')
+                ->firstOrFail();
+            $order = $dataMster->salesMstr;
+
+            $n8nWebhookUrl = 'https://yanuarso.app.n8n.cloud/webhook/bcaf3d34-b8cc-4376-95d1-b426fb49aea6';
+
+            Http::withoutVerifying()->post($n8nWebhookUrl, [
+                'sales_mstr_nbr' => $order->sales_mstr_nbr,
+                'sales_mstr_bill' => $order->sales_mstr_bill,
+                'sales_mstr_date' => $order->sales_mstr_date,
+                'sales_mstr_total' => number_format($order->sales_mstr_total, 0, ',', '.'),
+            ]);
+
+            // hit calculateAndNotify Mrp mrpMstrController
+            $mrpMstrController = new MrpMstrController();
+            $mrpMstrController->calculateAndNotify();
+            // end hit calculateAndNotify Mrp mrpMstrController
 
             return redirect()->back()->with('status', 'success');
         } else {

@@ -7,9 +7,12 @@ use App\Models\MrpMstr;
 use App\Http\Requests\StoreMrpMstrRequest;
 use App\Http\Requests\UpdateMrpMstrRequest;
 use App\Models\MrpDet;
+use App\Models\OdmMstr;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class MrpMstrController extends Controller
 {
@@ -231,5 +234,56 @@ class MrpMstrController extends Controller
         }
 
         return redirect()->route('MrpMstrs.index')->with('success', 'MRP has been generated successfully');
+    }
+
+    public function calculateAndNotify()
+    {
+
+        $soNumbers = OdmMstr::whereNull('odm_mstr_status')
+            ->pluck('odm_mstr_nbr',)
+            ->unique()
+            ->toArray();
+
+        // dd($soNumbers);
+
+        $mrpResults = MrpMstr::with('itemMstr')
+            ->where('mrp_mstr_proceded', true)
+            ->where('mrp_mstr_summary', '>', 0)
+            ->get()
+            ->map(function ($mrp) {
+                return [
+                    'item_name' => $mrp->itemMstr->item_name,
+                    'item_desc' => $mrp->itemMstr->item_desc,
+                    'total_required' => $mrp->mrp_mstr_qtyreq,
+                    'stock_on_hand' => $mrp->mrp_mstr_saldo,
+                    'outstanding_po' => $mrp->mrp_mstr_outstanding,
+                    'suggested_purchase_qty' => max(0, $mrp->mrp_mstr_summary),
+                    'uom' => $mrp->itemMstr->item_uom
+                ];
+            })->toArray();
+
+        if (!empty($mrpResults)) {
+
+            $payload = [
+                'mrp_run_id' => 'MRP-' . now()->format('Ymd-His'),
+                'triggered_by_so' => array_values($soNumbers),
+                'summary' => [
+                    'total_items_to_purchase' => count($mrpResults)
+                ],
+                'items_to_purchase' => $mrpResults
+            ];
+
+            // dd($payload);
+
+            try {
+                $n8nWebhookUrl = env('N8N1_URL');
+
+                Http::withoutVerifying()->post($n8nWebhookUrl, $payload);
+            } catch (\Exception $e) {
+                Log::error('Gagal mengirim webhook MRP Summary ke n8n: ' . $e->getMessage());
+            }
+        }
+
+        // return back()->with('success', 'Proses kalkulasi MRP selesai!');
     }
 }

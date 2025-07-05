@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/MrpMstr/json', [MrpMstrController::class, 'data'])->name('MrpMstr.data');
     Route::get('/MrpMstr/detail/{id}', [MrpMstrController::class, 'detailData'])->name('MrpMstr.detailData');
     Route::get('MrpMstr/{mrpMstrId}/delete', [MrpMstrController::class, 'destroy']);
+    Route::get('/MrpMstr/calculateAndNotify', [MrpMstrController::class, 'calculateAndNotify'])->name('MrpMstr.calculateAndNotify');
 
     // genearte MRP
     Route::post('/MrpMstr/generateMrp', [MrpMstrController::class, 'generateMrp'])->name('MrpMstr.generateMrp');
